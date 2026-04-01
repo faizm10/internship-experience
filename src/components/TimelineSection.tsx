@@ -46,31 +46,22 @@ export function TimelineSection({
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
       className="absolute inset-0 flex flex-col"
     >
       {/* Section header */}
       <div className="flex items-end justify-between px-12 pt-10 pb-0 flex-shrink-0">
         <div>
-          <motion.div
-            initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1, duration: 0.5 }}
+          <span
+            className="font-sans text-xs uppercase tracking-widest"
+            style={{ fontFamily: "DM Sans", color: "#E8622A", letterSpacing: "0.16em", fontSize: "10px" }}
           >
-            <span
-              className="font-sans text-xs uppercase tracking-widest"
-              style={{ fontFamily: "DM Sans", color: "#E8622A", letterSpacing: "0.16em", fontSize: "10px" }}
-            >
-              {stage}
-            </span>
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
+            {stage}
+          </span>
+          <h2
             className="font-display leading-none mt-1"
             style={{
               fontFamily: "Playfair Display",
@@ -81,14 +72,14 @@ export function TimelineSection({
             }}
           >
             {title}
-          </motion.h2>
+          </h2>
         </div>
         {activeItem && (
           <motion.div
             key={activeItem.id}
-            initial={{ opacity: 0, x: 16 }}
+            initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.3 }}
             className="text-right max-w-xs"
           >
             <p

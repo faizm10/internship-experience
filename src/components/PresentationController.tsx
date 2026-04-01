@@ -155,8 +155,8 @@ function PresentationInner() {
         }}
       />
 
-      {/* Sections */}
-      <AnimatePresence mode="wait">
+      {/* Sections — crossfade (no mode="wait" to avoid blank gaps) */}
+      <AnimatePresence>
         {currentSection.id === "hero" && (
           <HeroSection key="hero" visible={true} />
         )}
