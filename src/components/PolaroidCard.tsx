@@ -111,9 +111,17 @@ export function PolaroidCard({
             backgroundColor: bgColor,
           }}
         >
-          {/* Emoji / visual */}
+          {/* Visual content (Image or Emoji fallback) */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-5xl">{item.emoji || "📌"}</span>
+            {item.imageUrl ? (
+              <img
+                src={item.imageUrl}
+                alt={item.title}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="text-5xl">{item.emoji || "📌"}</span>
+            )}
           </div>
           {/* Category badge */}
           <div className="absolute top-2 right-2">

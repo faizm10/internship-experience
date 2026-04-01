@@ -19,54 +19,62 @@ export function getSectionForStep(step: number): SectionConfig {
 
 export const timelineItems: TimelineItem[] = [
   // ─── BEFORE ──────────────────────────────────────────────────
-  {
-    id: "before-1",
-    stage: "before",
-    step: 1,
-    title: "The Starting Point",
-    caption: "I didn’t start ahead. I just started.",
-    summary:
-      "After first year, I honestly hadn’t done much outside of school. No side projects, no hackathons — just lectures and assignments.",
-    details:
-      "At the end of first year, I didn’t really know what to do or where to start. I was just one of those students doing the minimum to get by. When second year came around, something shifted. I started building small side projects, going to hackathons, and putting myself out there — not because I had a clear plan, but because I knew I had to start somewhere.",
-    category: "memory",
-    rotation: -2.5,
-    color: "#D4E8D4",
-    emoji: "🌱",
-    tags: ["first year", "starting point", "growth"],
-  },
-  {
-    id: "before-2",
-    stage: "before",
-    step: 2,
-    title: "The Gap",
-    caption: "Tutorials vs. reality.",
-    summary:
-      "I knew React from YouTube. I had never touched a production codebase, a real PR process, or a staging environment.",
-    details:
-      "The gap between 'I know how to build a todo app' and 'I can contribute to a real product' is enormous. I underestimated it. The first two weeks were humbling in the best way possible.",
-    category: "challenge",
-    rotation: 2.1,
-    color: "#E8D4D4",
-    emoji: "⚡",
-    tags: ["reality check", "learning curve"],
-  },
-  {
-    id: "before-3",
-    stage: "before",
-    step: 3,
-    title: "The Goal",
-    caption: "One thing: ship something real.",
-    summary:
-      "Ship something real. Write code that actually matters. Learn from engineers I genuinely respect.",
-    details:
-      "I set one goal coming in: leave with something I could point to and say 'I built that.' Not a tutorial. Not a sandbox. Something in production that real people used.",
-    category: "growth",
-    rotation: -1.8,
-    color: "#D4D8E8",
-    emoji: "🎯",
-    tags: ["goals", "intention", "focus"],
-  },
+    {
+      id: "before-1",
+      stage: "before",
+      step: 1,
+      title: "The Starting Point",
+      caption: "I didn’t start ahead. I just started.",
+      summary:
+        "After first year, I honestly hadn’t done much outside of school. No side projects, no hackathons — just lectures and assignments.",
+      details:
+        "At the end of first year, I didn’t really know what to do or where to start. I was just one of those students doing the minimum to get by. When second year came around, something shifted. I started building small side projects, going to hackathons, and putting myself out there — not because I had a clear plan, but because I knew I had to start somewhere.",
+      category: "memory",
+      rotation: -2.5,
+      color: "#D4E8D4",
+      emoji: "🌱",
+      imageUrl: "/poker-night.jpeg",
+      tags: ["first year", "starting point", "growth"],
+    },
+  
+    {
+      id: "before-2",
+      stage: "before",
+      step: 2,
+      title: "Locking In",
+      caption: "No plan. Just action.",
+      summary:
+        "Second year was when I started taking things seriously — building projects, going to hackathons, and putting myself in uncomfortable situations.",
+      details:
+        "I didn’t have a perfect roadmap. I just knew I couldn’t stay where I was. I started building whatever I could, attending hackathons even when I felt out of place, and trying to learn by doing. I also took courses outside my university, including at Waterloo, to push myself further and get exposure to a different level of thinking. That period was messy, but it’s where everything started to change.",
+      category: "growth",
+      rotation: 2.1,
+      color: "#E8D4D4",
+      emoji: "⚡",
+      imageUrl:
+        "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?auto=format&fit=crop&q=80&w=400",
+      tags: ["second year", "hackathons", "projects", "waterloo", "growth"],
+    },
+  
+    {
+      id: "before-3",
+      stage: "before",
+      step: 3,
+      title: "The Opportunity",
+      caption: "This is where it led.",
+      summary:
+        "All of that momentum — projects, hackathons, and putting myself out there — led to landing my internship at TD.",
+      details:
+        "There wasn’t one moment that made it happen. It was the accumulation of small things: building consistently, learning in public, talking to people, and improving bit by bit. Getting the offer from TD felt like validation that I was finally on the right path — but also a reminder that this was just the beginning.",
+      category: "memory",
+      rotation: -1.8,
+      color: "#D4D8E8",
+      emoji: "🚪",
+      imageUrl:
+        "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=400",
+      tags: ["internship", "TD", "opportunity", "progress"],
+    },
+  
 
   // ─── DURING ──────────────────────────────────────────────────
   {
@@ -83,6 +91,7 @@ export const timelineItems: TimelineItem[] = [
     rotation: 3.2,
     color: "#E8E4D4",
     emoji: "📝",
+    imageUrl: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80&w=400",
     tags: ["PR", "code review", "lesson 1"],
   },
   {
@@ -99,6 +108,7 @@ export const timelineItems: TimelineItem[] = [
     rotation: -2.8,
     color: "#D4E4E8",
     emoji: "🚀",
+    imageUrl: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=400",
     tags: ["ownership", "full-stack", "milestone"],
     metric: { value: "1", label: "feature shipped end-to-end" },
   },
@@ -116,6 +126,7 @@ export const timelineItems: TimelineItem[] = [
     rotation: 1.9,
     color: "#E8D8D4",
     emoji: "🔥",
+    imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=400",
     tags: ["incident", "prod bug", "ownership"],
   },
   {
@@ -132,6 +143,7 @@ export const timelineItems: TimelineItem[] = [
     rotation: -3.1,
     color: "#D4E8E0",
     emoji: "📊",
+    imageUrl: "https://images.unsplash.com/photo-1551288049-bbbda536339a?auto=format&fit=crop&q=80&w=400",
     tags: ["performance", "optimization", "impact"],
     metric: { value: "60%", label: "API latency reduction" },
   },
@@ -149,6 +161,7 @@ export const timelineItems: TimelineItem[] = [
     rotation: 2.4,
     color: "#E4D4E8",
     emoji: "🧠",
+    imageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=400",
     tags: ["mentorship", "mindset", "growth"],
   },
   {
@@ -165,6 +178,7 @@ export const timelineItems: TimelineItem[] = [
     rotation: -1.6,
     color: "#E8E8D4",
     emoji: "✨",
+    imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=400",
     tags: ["milestone", "users", "impact"],
     metric: { value: "50k+", label: "users in week one" },
   },
@@ -182,6 +196,7 @@ export const timelineItems: TimelineItem[] = [
     rotation: 2.9,
     color: "#D8E8D4",
     emoji: "🤝",
+    imageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=400",
     tags: ["teamwork", "culture", "communication"],
   },
 
@@ -200,6 +215,7 @@ export const timelineItems: TimelineItem[] = [
     rotation: -2.2,
     color: "#D4E0E8",
     emoji: "🔧",
+    imageUrl: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&q=80&w=400",
     tags: ["skills", "tools", "growth"],
   },
   {
@@ -216,6 +232,7 @@ export const timelineItems: TimelineItem[] = [
     rotation: 1.7,
     color: "#E8D4D8",
     emoji: "💡",
+    imageUrl: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=400",
     tags: ["mindset", "engineering", "thinking"],
   },
   {
@@ -232,6 +249,7 @@ export const timelineItems: TimelineItem[] = [
     rotation: -1.3,
     color: "#E8E4D4",
     emoji: "📈",
+    imageUrl: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?auto=format&fit=crop&q=80&w=400",
     tags: ["reflection", "growth", "delta"],
   },
 
@@ -250,6 +268,7 @@ export const timelineItems: TimelineItem[] = [
     rotation: 2.1,
     color: "#D4E8E8",
     emoji: "🌅",
+    imageUrl: "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&q=80&w=400",
     tags: ["future", "next chapter"],
   },
   {
@@ -266,6 +285,7 @@ export const timelineItems: TimelineItem[] = [
     rotation: -2.7,
     color: "#E8D4D4",
     emoji: "🙏",
+    imageUrl: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=400",
     tags: ["gratitude", "team"],
   },
 ];

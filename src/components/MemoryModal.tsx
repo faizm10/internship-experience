@@ -43,7 +43,15 @@ export function MemoryModal() {
                 className="w-full flex items-center justify-center relative"
                 style={{ height: 200, backgroundColor: item.color }}
               >
-                <span className="text-7xl">{item.emoji}</span>
+                {item.imageUrl ? (
+                  <img
+                    src={item.imageUrl}
+                    alt={item.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-7xl">{item.emoji}</span>
+                )}
                 <button
                   onClick={() => expandCard(null)}
                   className="absolute top-4 right-4 p-1.5 rounded-full"
