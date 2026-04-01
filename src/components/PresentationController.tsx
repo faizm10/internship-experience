@@ -12,59 +12,58 @@ import { ProgressIndicator } from "./ProgressIndicator";
 import { NavigationHint } from "./NavigationHint";
 import { SpotlightOverlay } from "./SpotlightOverlay";
 import { MemoryModal } from "./MemoryModal";
+import { AmbientBackground } from "./AmbientBackground";
 import { Zap, Monitor } from "lucide-react";
 
 function ControlBar() {
-  const { state, toggleSpotlight, toggleMode, surpriseMe } = usePresentation();
+  const { state, toggleSpotlight, toggleMode } = usePresentation();
 
   return (
-    <div className="fixed top-6 right-6 z-50 flex items-center gap-2">
-      {/* Spotlight toggle */}
+    <div className="fixed right-4 top-4 z-50 flex flex-wrap items-center justify-end gap-2 md:right-6 md:top-6">
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={toggleSpotlight}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-sans"
+        className="flex items-center gap-2 rounded-full px-4 py-2 text-[11px] uppercase tracking-[0.16em]"
         style={{
-          fontFamily: "DM Sans",
+          fontFamily: "Special Elite",
           backgroundColor: state.spotlightMode
-            ? "rgba(26,25,24,0.85)"
-            : "rgba(247,243,236,0.85)",
+            ? "rgba(24,17,14,0.92)"
+            : "rgba(246,235,213,0.92)",
           border: state.spotlightMode
             ? "1px solid rgba(255,255,255,0.1)"
-            : "1px solid rgba(26,25,24,0.1)",
-          color: state.spotlightMode ? "#F7F3EC" : "#6B645C",
+            : "1px solid rgba(84,60,42,0.16)",
+          color: state.spotlightMode ? "#F7F3EC" : "#46372F",
           backdropFilter: "blur(8px)",
-          fontSize: "11px",
+          boxShadow: "0 10px 28px rgba(0,0,0,0.22)",
         }}
-        title="Toggle spotlight mode"
+        title="Toggle desk lamp"
       >
-        <Monitor size={10} />
-        Spotlight
+        <Monitor size={12} />
+        Desk Lamp
       </motion.button>
 
-      {/* Mode toggle */}
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={toggleMode}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-sans"
+        className="flex items-center gap-2 rounded-full px-4 py-2 text-[11px] uppercase tracking-[0.16em]"
         style={{
-          fontFamily: "DM Sans",
+          fontFamily: "Special Elite",
           backgroundColor: state.mode === "presentation"
-            ? "rgba(232,98,42,0.1)"
-            : "rgba(247,243,236,0.85)",
+            ? "rgba(185,58,50,0.18)"
+            : "rgba(246,235,213,0.92)",
           border: state.mode === "presentation"
-            ? "1px solid rgba(232,98,42,0.3)"
-            : "1px solid rgba(26,25,24,0.1)",
-          color: state.mode === "presentation" ? "#E8622A" : "#6B645C",
+            ? "1px solid rgba(255,220,200,0.3)"
+            : "1px solid rgba(84,60,42,0.16)",
+          color: state.mode === "presentation" ? "#fff4ea" : "#46372F",
           backdropFilter: "blur(8px)",
-          fontSize: "11px",
+          boxShadow: "0 10px 28px rgba(0,0,0,0.22)",
         }}
-        title="Toggle presentation / free mode"
+        title="Toggle route mode"
       >
-        <Zap size={10} />
-        {state.mode === "presentation" ? "Presenting" : "Free mode"}
+        <Zap size={12} />
+        {state.mode === "presentation" ? "Guided Route" : "Open Desk"}
       </motion.button>
     </div>
   );
@@ -124,6 +123,7 @@ function PresentationInner() {
       style={{ cursor: "default" }}
       onClick={handleClick}
     >
+      <AmbientBackground />
       {/* Sections — crossfade (no mode="wait" to avoid blank gaps) */}
       <AnimatePresence>
         {currentSection.id === "hero" && (
@@ -133,8 +133,8 @@ function PresentationInner() {
           <TimelineSection
             key="before"
             stage="before"
-            title="Before I Started"
-            subtitle="Nervous, caffeinated, and ready to learn."
+            title="Background Evidence"
+            subtitle="The pre-case context: not ahead, not fully sure, but finally moving."
             startStep={1}
             endStep={3}
             visible={true}
@@ -144,8 +144,8 @@ function PresentationInner() {
           <TimelineSection
             key="during"
             stage="during"
-            title="During the Co-op"
-            subtitle="Four months of real engineering."
+            title="Field Investigation"
+            subtitle="The actual work: review comments, production pressure, ownership, and proof."
             startStep={4}
             endStep={10}
             visible={true}

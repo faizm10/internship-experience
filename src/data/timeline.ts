@@ -3,11 +3,11 @@ import { TimelineItem, SectionConfig } from "@/lib/types";
 export const TOTAL_STEPS = 16;
 
 export const sectionConfigs: SectionConfig[] = [
-  { id: "hero", label: "Intro", stage: "before", startStep: 0, endStep: 0 },
-  { id: "before", label: "Before", stage: "before", startStep: 1, endStep: 3 },
-  { id: "during", label: "During", stage: "during", startStep: 4, endStep: 10 },
-  { id: "after", label: "After", stage: "after", startStep: 11, endStep: 13 },
-  { id: "closing", label: "Close", stage: "closing", startStep: 14, endStep: 15 },
+  { id: "hero", label: "Case File", stage: "before", startStep: 0, endStep: 0 },
+  { id: "before", label: "Background", stage: "before", startStep: 1, endStep: 3 },
+  { id: "during", label: "Investigation", stage: "during", startStep: 4, endStep: 10 },
+  { id: "after", label: "Findings", stage: "after", startStep: 11, endStep: 13 },
+  { id: "closing", label: "Verdict", stage: "closing", startStep: 14, endStep: 15 },
 ];
 
 export function getSectionForStep(step: number): SectionConfig {

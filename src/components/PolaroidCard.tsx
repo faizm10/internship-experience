@@ -1,9 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUpRight, Tag } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { easeSmooth } from "@/lib/motion";
 import { TimelineItem } from "@/lib/types";
 import { usePresentation } from "@/store/usePresentationStore";
+import { POLAROID_LAYOUT } from "@/lib/polaroidLayout";
+import { CATEGORY_META, STAGE_META, getEvidenceCode } from "@/lib/caseBoard";
 
 interface PolaroidCardProps {
   item: TimelineItem;
@@ -15,6 +20,12 @@ interface PolaroidCardProps {
   style?: React.CSSProperties;
 }
 
+const clampText: React.CSSProperties = {
+  display: "-webkit-box",
+  WebkitBoxOrient: "vertical",
+  overflow: "hidden",
+};
+
 export function PolaroidCard({
   item,
   isActive,
@@ -25,36 +36,47 @@ export function PolaroidCard({
   style,
 }: PolaroidCardProps) {
   const { state, expandCard } = usePresentation();
+  const [slideIdx, setSlideIdx] = useState(0);
 
-  const categoryColors: Record<string, string> = {
-    project: "#D4E4E8",
-    lesson: "#E8E4D4",
-    challenge: "#E8D4D4",
-    growth: "#D4E8D4",
-    memory: "#E4D4E8",
-    hero: "#D4D8E8",
-  };
+  useEffect(() => {
+    setSlideIdx(0);
+  }, [item.id]);
 
-  const bgColor = item.color || categoryColors[item.category] || "#E8E4D4";
+  useEffect(() => {
+    if (!isActive) setSlideIdx(0);
+  }, [isActive]);
+
+  useEffect(() => {
+    if (!isActive || item.images.length <= 1) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq.matches) return;
+    const t = window.setInterval(() => {
+      setSlideIdx((i) => (i + 1) % item.images.length);
+    }, 4200);
+    return () => window.clearInterval(t);
+  }, [isActive, item.images.length]);
 
   if (isFuture) return null;
 
-  // Compute visual state — handled in animate, not variants, to avoid style conflicts
-  const targetOpacity = state.spotlightMode && !isActive ? 0.1 : isPast ? 0.45 : 1;
+  const categoryMeta = CATEGORY_META[item.category];
+  const stageMeta = STAGE_META[item.stage];
+  const evidenceCode = getEvidenceCode(item.step);
+
+  const targetOpacity = state.spotlightMode && !isActive ? 0.12 : isPast ? 0.58 : 1;
   const targetFilter =
     state.spotlightMode && !isActive
-      ? "blur(4px) saturate(0.3)"
+      ? "blur(3px) saturate(0.35)"
       : isPast
-      ? "blur(1.5px) saturate(0.6)"
+      ? "blur(0.8px) saturate(0.72)"
       : "blur(0px) saturate(1)";
   const targetRotate = isActive ? 0 : item.rotation;
-  const targetScale = isActive ? 1 : isPast ? 0.88 : 1;
+  const targetScale = isActive ? 1 : isPast ? 0.85 : 0.96;
 
   return (
     <motion.div
       layout
       key={item.id}
-      initial={{ opacity: 0, y: 50, scale: 0.88, rotate: 0 }}
+      initial={{ opacity: 0, y: 48, scale: 0.9, rotate: 0 }}
       animate={{
         opacity: targetOpacity,
         y: 0,
@@ -62,22 +84,22 @@ export function PolaroidCard({
         rotate: targetRotate,
         filter: targetFilter,
       }}
-      exit={{ opacity: 0, scale: 0.92, y: -16, transition: { duration: 0.2 } }}
+      exit={{ opacity: 0, scale: 0.92, y: -18, transition: { duration: 0.22 } }}
       transition={{
         type: "spring",
         stiffness: 280,
         damping: 26,
-        mass: 0.7,
+        mass: 0.72,
         opacity: { duration: 0.3 },
         filter: { duration: 0.3 },
       }}
       whileHover={
         isActive
           ? {
-              scale: 1.04,
-              rotate: item.rotation * 0.25,
-              y: -8,
-              transition: { duration: 0.2 },
+              scale: 1.02,
+              rotate: item.rotation * 0.22,
+              y: -5,
+              transition: { duration: 0.18 },
             }
           : undefined
       }
@@ -95,104 +117,201 @@ export function PolaroidCard({
       )}
       style={{ ...style }}
     >
-      {/* Polaroid frame */}
       <div
-        className="bg-[#FDFCFB] polaroid-shadow rounded-[3px] overflow-hidden transition-all duration-300 border border-black/[0.03]"
-        style={{
-          width: 260,
-          padding: "14px 14px 52px 14px",
-        }}
+        className="relative paper-panel overflow-hidden rounded-[6px] transition-transform duration-300"
+        style={{ width: POLAROID_LAYOUT.width }}
       >
-        {/* Image area with inner shadow for depth */}
         <div
-          className="w-full rounded-[1px] overflow-hidden relative group/img"
-          style={{
-            height: 220,
-            backgroundColor: bgColor,
-            boxShadow: "inset 0 0 12px rgba(0,0,0,0.06)",
-          }}
-        >
-          {/* Subtle inner border for the image */}
-          <div className="absolute inset-0 border border-black/[0.04] z-10 pointer-events-none" />
-          
-          {/* Visual content (Image or Emoji fallback) */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            {item.images && item.images.length > 0 ? (
-              <img
-                src={item.images[0]}
-                alt={item.title}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-105"
-              />
-            ) : (
-              <span className="text-5xl">{item.emoji || "📌"}</span>
-            )}
-          </div>
-          
-          {/* Multi-image indicator (Stack effect) */}
-          {item.images && item.images.length > 1 && (
-            <div className="absolute bottom-2 right-2 z-20 flex gap-0.5">
-              {[...Array(Math.min(item.images.length, 3))].map((_, i) => (
-                <div 
-                  key={i}
-                  className="w-1.5 h-1.5 rounded-full bg-white/80 shadow-sm border border-black/10"
-                  style={{ opacity: 1 - i * 0.2 }}
-                />
-              ))}
-            </div>
-          )}
-          
-          {/* Subtle gradient overlay for realism */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-black/[0.02] to-transparent pointer-events-none" />
-          
-          {/* Metric overlay */}
-          {item.metric && isActive && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, x: -10 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              transition={{ delay: 0.3, duration: 0.4 }}
-              className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md rounded-sm px-2.5 py-1.5 z-20 shadow-sm border border-black/[0.03]"
-            >
-              <div
-                className="font-display text-xl leading-none"
-                style={{ color: "#E8622A", fontFamily: "Playfair Display", fontWeight: 700 }}
-              >
-                {item.metric.value}
-              </div>
-              <div
-                className="text-charcoal-muted leading-none mt-1 font-medium"
-                style={{ fontSize: "9px", fontFamily: "DM Sans", color: "#6B645C", textTransform: "uppercase", letterSpacing: "0.02em" }}
-              >
-                {item.metric.label}
-              </div>
-            </motion.div>
-          )}
+          className="tape-strip"
+          style={{ top: -9, left: 20, rotate: "-6deg" }}
+        />
+        <div
+          className="tape-strip"
+          style={{ top: -10, right: 18, rotate: "8deg", width: 68 }}
+        />
+
+        <div className="absolute left-1/2 top-3 z-20 -translate-x-1/2">
+          <div className="pushpin" />
         </div>
 
-        {/* Caption strip with improved typography */}
-        <div className="pt-4 px-1">
-          <p
-            className="font-handwritten text-center leading-tight italic"
+        <div className="px-4 pb-4 pt-5">
+          <div className="mb-3 flex items-center justify-between gap-2">
+            <div
+              className="font-typewriter rounded-full px-2.5 py-1 text-[10px] uppercase tracking-[0.16em]"
+              style={{
+                color: "#f6ebdc",
+                backgroundColor: categoryMeta.accent,
+              }}
+            >
+              {evidenceCode}
+            </div>
+            <div
+              className="font-typewriter text-[10px] uppercase tracking-[0.18em]"
+              style={{ color: stageMeta.accent }}
+            >
+              {categoryMeta.chip}
+            </div>
+          </div>
+
+          <div
+            className="relative overflow-hidden rounded-[4px]"
             style={{
-              fontSize: "18px",
-              color: "#3D3935",
-              fontFamily: "Caveat",
-              fontWeight: 500,
+              height: POLAROID_LAYOUT.imageHeight,
+              backgroundColor: item.color || categoryMeta.paper,
+              boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)",
             }}
           >
-            {item.caption}
-          </p>
+            <div
+              className="absolute left-3 top-3 z-20 rounded-full px-2.5 py-1 font-typewriter text-[9px] uppercase tracking-[0.18em]"
+              style={{
+                backgroundColor: "rgba(28, 20, 17, 0.72)",
+                color: "#f6ebdc",
+              }}
+            >
+              {stageMeta.label}
+            </div>
+            <div
+              className="absolute right-3 top-3 z-20 rounded-sm px-2 py-1 font-typewriter text-[9px] uppercase tracking-[0.16em]"
+              style={{
+                backgroundColor: "rgba(249, 241, 226, 0.92)",
+                color: categoryMeta.accent,
+              }}
+            >
+              {categoryMeta.label}
+            </div>
+
+            <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+              {!isActive || item.images.length <= 1 ? (
+                <img
+                  src={item.images[0]}
+                  alt={item.title}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <AnimatePresence initial={false}>
+                  <motion.img
+                    key={`${item.id}-${slideIdx}`}
+                    src={item.images[slideIdx]}
+                    alt={item.title}
+                    className="absolute inset-0 h-full w-full object-cover"
+                    initial={{ opacity: 0, scale: 1.04 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5, ease: easeSmooth }}
+                  />
+                </AnimatePresence>
+              )}
+            </div>
+
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(16,11,10,0.05) 0%, rgba(16,11,10,0.28) 100%)",
+              }}
+            />
+
+            {item.metric && (
+              <div
+                className="absolute bottom-3 left-3 z-20 rounded-[4px] px-3 py-1.5"
+                style={{
+                  backgroundColor: "rgba(250, 243, 232, 0.9)",
+                  color: categoryMeta.accent,
+                  boxShadow: "0 8px 16px rgba(19, 13, 10, 0.12)",
+                }}
+              >
+                <div
+                  className="font-display text-2xl leading-none"
+                  style={{ fontWeight: 700 }}
+                >
+                  {item.metric.value}
+                </div>
+                <div
+                  className="font-typewriter text-[9px] uppercase tracking-[0.18em]"
+                >
+                  {item.metric.label}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="mt-4 space-y-3">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p
+                  className="font-typewriter text-[10px] uppercase tracking-[0.2em]"
+                  style={{ color: "#8c6a55" }}
+                >
+                  Lead {index + 1}
+                </p>
+                <h3
+                  className="font-display text-[28px] leading-[1.02]"
+                  style={{ color: "var(--ink)", letterSpacing: "-0.02em" }}
+                >
+                  {item.title}
+                </h3>
+              </div>
+              {isActive && (
+                <div
+                  className="rounded-full px-2 py-1 font-typewriter text-[10px] uppercase tracking-[0.16em]"
+                  style={{
+                    color: categoryMeta.accent,
+                    backgroundColor: categoryMeta.paper,
+                  }}
+                >
+                  Active
+                </div>
+              )}
+            </div>
+
+            <p
+              className="font-handwritten text-[24px] leading-none"
+              style={{ color: categoryMeta.accent }}
+            >
+              {item.caption}
+            </p>
+
+            <p
+              className="text-[13px] leading-[1.55]"
+              style={{
+                ...clampText,
+                WebkitLineClamp: isActive ? 4 : 3,
+                color: "#4a3b32",
+              }}
+            >
+              {item.summary}
+            </p>
+
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex flex-wrap gap-1.5">
+                {(item.tags ?? []).slice(0, isActive ? 3 : 2).map((tag) => (
+                  <span
+                    key={tag}
+                    className="flex items-center gap-1 rounded-full px-2 py-1 text-[10px] uppercase tracking-[0.08em]"
+                    style={{
+                      color: "#67554c",
+                      backgroundColor: "rgba(255, 249, 239, 0.72)",
+                    }}
+                  >
+                    <Tag size={10} />
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {isActive && (
+                <div
+                  className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.12em]"
+                  style={{ color: categoryMeta.accent }}
+                >
+                  open case notes
+                  <ArrowUpRight size={14} />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* Active indicator dot */}
-      {isActive && (
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          className="absolute -top-2 -right-2 w-4 h-4 rounded-full border-2 border-white"
-          style={{ backgroundColor: "#E8622A" }}
-        />
-      )}
     </motion.div>
   );
 }

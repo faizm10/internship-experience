@@ -3,81 +3,78 @@
 import { motion } from "framer-motion";
 import { usePresentation } from "@/store/usePresentationStore";
 import { sectionConfigs } from "@/data/timeline";
+import { getEvidenceCode } from "@/lib/caseBoard";
 
 export function ProgressIndicator() {
   const { state, goTo } = usePresentation();
+  const currentSection =
+    sectionConfigs.find(
+      (section) =>
+        state.currentStep >= section.startStep && state.currentStep <= section.endStep
+    ) ?? sectionConfigs[0];
 
   return (
-    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-6">
-      {/* Step counter */}
-      <div
-        className="font-sans text-xs tabular-nums"
-        style={{ color: "#9E9890", fontFamily: "DM Sans" }}
-      >
-        <span style={{ color: "#1A1918", fontWeight: 500 }}>{state.currentStep}</span>
-        <span className="mx-1">/</span>
-        <span>{state.totalSteps - 1}</span>
-      </div>
-
-      {/* Section dots */}
-      <div className="flex items-center gap-1.5">
-        {sectionConfigs.map((section) => {
-          const isActive =
-            state.currentStep >= section.startStep &&
-            state.currentStep <= section.endStep;
-          const isPast = state.currentStep > section.endStep;
-          const stepCount = section.endStep - section.startStep + 1;
-
-          return (
-            <div key={section.id} className="flex items-center gap-1">
-              {Array.from({ length: stepCount }).map((_, i) => {
-                const stepNum = section.startStep + i;
-                const isThisStep = stepNum === state.currentStep;
-                const isStepPast = state.currentStep > stepNum;
-
-                return (
-                  <motion.button
-                    key={stepNum}
-                    onClick={() => goTo(stepNum)}
-                    whileHover={{ scale: 1.4 }}
-                    animate={{
-                      width: isThisStep ? 20 : 6,
-                      opacity: isStepPast ? 0.6 : isThisStep ? 1 : 0.25,
-                    }}
-                    transition={{ duration: 0.2 }}
-                    className="h-1.5 rounded-full cursor-pointer"
-                    style={{
-                      backgroundColor: isThisStep
-                        ? "#E8622A"
-                        : isStepPast
-                        ? "#9E9890"
-                        : "#C8C0B4",
-                    }}
-                    title={`${section.label} — step ${i + 1}`}
-                  />
-                );
-              })}
-              {/* Gap between sections */}
-              <div className="w-1" />
+    <div className="fixed bottom-3 left-3 right-3 z-50 md:bottom-4 md:left-6 md:right-auto">
+      <div className="board-panel flex w-fit max-w-full flex-col gap-2 rounded-[20px] px-3 py-3 md:max-w-[calc(100vw-3rem)] md:px-4 md:py-3">
+        <div className="flex flex-nowrap items-center justify-between gap-3">
+          <div>
+            <p
+              className="font-typewriter text-[10px] uppercase tracking-[0.2em]"
+              style={{ color: "#866c5a" }}
+            >
+              Case Progress
+            </p>
+            <div className="mt-1 flex items-center gap-2">
+              <span
+                className="font-display text-[28px] leading-none"
+                style={{ color: "#2f221b" }}
+              >
+                {String(state.currentStep).padStart(2, "0")}
+              </span>
+              <span className="text-xs md:text-sm" style={{ color: "#5a4a3f" }}>
+                / {String(state.totalSteps - 1).padStart(2, "0")} · {currentSection.label}
+              </span>
             </div>
-          );
-        })}
-      </div>
+          </div>
+          <div
+            className="shrink-0 rounded-full px-2.5 py-1 font-typewriter text-[10px] uppercase tracking-[0.16em]"
+            style={{
+              color: "#f7ebdc",
+              backgroundColor: "rgba(88, 74, 63, 0.82)",
+            }}
+          >
+            {getEvidenceCode(state.currentStep)}
+          </div>
+        </div>
 
-      {/* Section label */}
-      <div
-        className="font-sans text-xs uppercase tracking-wider"
-        style={{
-          color: "#9E9890",
-          fontFamily: "DM Sans",
-          letterSpacing: "0.1em",
-          fontSize: "10px",
-        }}
-      >
-        {sectionConfigs.find(
-          (s) =>
-            state.currentStep >= s.startStep && state.currentStep <= s.endStep
-        )?.label ?? ""}
+        <div className="flex flex-nowrap gap-1.5 overflow-x-auto pb-1 pr-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {Array.from({ length: state.totalSteps }).map((_, stepNum) => {
+            const isActive = stepNum === state.currentStep;
+            const isPast = stepNum < state.currentStep;
+
+            return (
+              <motion.button
+                key={stepNum}
+                onClick={() => goTo(stepNum)}
+                whileHover={{ scale: 1.04, y: -1 }}
+                className="min-w-[42px] shrink-0 rounded-full px-2.5 py-1.5 text-[10px] uppercase tracking-[0.14em]"
+                style={{
+                  fontFamily: "Special Elite",
+                  backgroundColor: isActive
+                    ? "#b93a32"
+                    : isPast
+                    ? "rgba(120, 103, 90, 0.28)"
+                    : "rgba(255, 248, 236, 0.7)",
+                  color: isActive ? "#fff4ea" : isPast ? "#f7ebdc" : "#4b3a31",
+                  boxShadow: isActive ? "0 8px 18px rgba(185, 58, 50, 0.22)" : "none",
+                }}
+                title={`Go to ${getEvidenceCode(stepNum)}`}
+              >
+                {String(stepNum).padStart(2, "0")}
+              </motion.button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

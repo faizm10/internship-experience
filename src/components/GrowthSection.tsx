@@ -1,9 +1,12 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { easeSmooth, sectionTransition } from "@/lib/motion";
 import { usePresentation } from "@/store/usePresentationStore";
 import { timelineItems } from "@/data/timeline";
 import { PolaroidCard } from "./PolaroidCard";
+import { POLAROID_LAYOUT } from "@/lib/polaroidLayout";
+import { STAGE_META } from "@/lib/caseBoard";
 
 const skills = [
   { label: "TypeScript", level: 88 },
@@ -29,183 +32,207 @@ export function GrowthSection({ visible }: { visible: boolean }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
+      initial={{ opacity: 0, y: 22 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="absolute inset-0 flex"
+      exit={{ opacity: 0, y: -16, transition: { duration: 0.38, ease: easeSmooth } }}
+      transition={sectionTransition}
+      className="absolute inset-0 z-10 grid gap-4 px-4 pb-4 pt-4 md:px-7 md:pb-7 md:pt-6 lg:grid-cols-[420px_minmax(0,1fr)]"
     >
-      {/* Left panel: title + skills */}
-      <div className="w-1/2 flex flex-col justify-center pl-12 pr-8">
-        <span
-          className="font-sans text-xs uppercase tracking-widest block mb-2"
-          style={{ fontFamily: "DM Sans", color: "#E8622A", letterSpacing: "0.16em", fontSize: "10px" }}
-        >
-          After
-        </span>
+      <div className="space-y-4">
+        <div className="board-panel rounded-[22px] px-5 py-5">
+          <p
+            className="font-typewriter text-[10px] uppercase tracking-[0.22em]"
+            style={{ color: STAGE_META.after.accent }}
+          >
+            {STAGE_META.after.stamp}
+          </p>
+          <h2
+            className="mt-2 font-display leading-none"
+            style={{
+              fontSize: "clamp(34px, 5vw, 62px)",
+              color: "var(--ink)",
+              letterSpacing: "-0.03em",
+            }}
+          >
+            Findings Board
+          </h2>
+          <p className="mt-4 text-sm leading-6" style={{ color: "#4b3a31" }}>
+            This is the part where the scattered clues stop feeling isolated and
+            start reading like a clear pattern.
+          </p>
+        </div>
 
-        <h2
-          className="font-display leading-none mb-6"
-          style={{
-            fontFamily: "Playfair Display",
-            fontSize: "clamp(28px, 4vw, 52px)",
-            fontWeight: 600,
-            color: "#1A1918",
-            letterSpacing: "-0.02em",
-          }}
-        >
-          Growth,
-          <br />
-          <em style={{ fontStyle: "italic" }}>measured.</em>
-        </h2>
-
-        <AnimatePresence>
+        <div className="paper-panel rounded-[22px] px-5 py-5">
+          <p
+            className="font-typewriter text-[10px] uppercase tracking-[0.2em]"
+            style={{ color: "#8c6a55" }}
+          >
+            Capability Readout
+          </p>
           {showSkills && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="space-y-3"
-            >
+            <div className="mt-4 space-y-4">
               {skills.map((skill, i) => (
                 <motion.div
                   key={skill.label}
                   initial={{ opacity: 0, x: -16 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.07, duration: 0.4 }}
+                  transition={{ delay: i * 0.06, duration: 0.38, ease: easeSmooth }}
                 >
-                  <div className="flex items-center justify-between mb-1">
-                    <span
-                      className="font-sans text-xs font-medium"
-                      style={{ fontFamily: "DM Sans", color: "#4A4540", fontSize: "12px" }}
-                    >
+                  <div className="mb-1 flex items-center justify-between">
+                    <span className="text-sm font-medium" style={{ color: "#4a3b31" }}>
                       {skill.label}
                     </span>
                     <span
-                      className="font-handwritten text-sm"
-                      style={{ fontFamily: "Caveat", color: "#9E9890", fontSize: "14px" }}
+                      className="font-typewriter text-[11px] uppercase tracking-[0.14em]"
+                      style={{ color: "#8c6a55" }}
                     >
                       {skill.level}%
                     </span>
                   </div>
                   <div
-                    className="h-1.5 rounded-full overflow-hidden"
-                    style={{ backgroundColor: "#EFE8DC" }}
+                    className="h-2 overflow-hidden rounded-full"
+                    style={{ backgroundColor: "#ded0bb" }}
                   >
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${skill.level}%` }}
-                      transition={{ delay: 0.3 + i * 0.07, duration: 0.7, ease: "easeOut" }}
+                      transition={{ delay: 0.24 + i * 0.05, duration: 0.78, ease: easeSmooth }}
                       className="h-full rounded-full"
                       style={{
-                        backgroundColor: i === 0 ? "#E8622A" : "#9E9890",
-                        opacity: i === 0 ? 1 : 0.7,
+                        background:
+                          i % 2 === 0
+                            ? "linear-gradient(90deg, #b93a32 0%, #d97335 100%)"
+                            : "linear-gradient(90deg, #6b7d55 0%, #365a49 100%)",
                       }}
                     />
                   </div>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
+        </div>
 
         <AnimatePresence>
           {showShift && (
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mt-6 pt-5 border-t"
-              style={{ borderColor: "#EFE8DC" }}
+              transition={{ duration: 0.42, ease: easeSmooth }}
+              className="paper-panel rounded-[22px] px-5 py-5"
             >
               <p
-                className="font-handwritten text-xl leading-snug"
-                style={{ fontFamily: "Caveat", color: "#4A4540", fontSize: "20px" }}
+                className="font-typewriter text-[10px] uppercase tracking-[0.2em]"
+                style={{ color: "#8c6a55" }}
               >
-                "From <em>does it work?</em> to
+                Biggest Shift
+              </p>
+              <p
+                className="mt-3 font-handwritten text-[30px] leading-none"
+                style={{ color: "#b93a32" }}
+              >
+                From “does it work?”
                 <br />
-                <span style={{ color: "#E8622A" }}>should we build this?</span>"
+                to “should we build it?”
               </p>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      {/* Right panel: polaroid cards */}
-      <div className="w-1/2 relative flex items-center justify-center">
-        <AnimatePresence>
-          {visibleAfterItems.map((item, index) => {
-            const positions = [
-              { x: 0, y: 0 },
-              { x: 50, y: -60 },
-              { x: -30, y: 80 },
-            ];
-            const pos = positions[index % positions.length];
-            const isActive = activeItem?.id === item.id;
-            const isPast = !isActive && item.step <= state.currentStep;
+      <div className="relative min-h-[460px] overflow-hidden rounded-[22px] board-panel px-4 py-4 md:px-6 md:py-6">
+        <div className="relative h-full min-h-[420px]">
+          <AnimatePresence>
+            {visibleAfterItems.map((item, index) => {
+              const positions = [
+                { x: 20, y: 34 },
+                { x: 238, y: 176 },
+                { x: 462, y: 48 },
+              ];
+              const pos = positions[index % positions.length];
+              const isActive = activeItem?.id === item.id;
+              const isPast = !isActive && item.step <= state.currentStep;
 
-            return (
-              <div
-                key={item.id}
-                className="absolute"
-                style={{
-                  left: `calc(50% + ${pos.x}px)`,
-                  top: `calc(50% + ${pos.y}px)`,
-                  transform: "translate(-130px, -150px)",
-                  zIndex: isActive ? 20 : index,
-                }}
-              >
+              return (
+                <motion.div
+                  key={item.id}
+                  className="absolute hidden md:block"
+                  style={{ zIndex: isActive ? 20 : index }}
+                  initial={false}
+                  animate={{
+                    left: isActive ? "50%" : pos.x,
+                    top: isActive ? "54%" : pos.y,
+                    x: isActive ? POLAROID_LAYOUT.centerOffsetX : 0,
+                    y: isActive ? POLAROID_LAYOUT.centerOffsetY : 0,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 28,
+                    mass: 0.9,
+                  }}
+                >
+                  <PolaroidCard
+                    item={item}
+                    isActive={isActive}
+                    isPast={isPast}
+                    isFuture={false}
+                    index={index}
+                  />
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+
+          <div className="flex h-full items-center justify-center md:hidden">
+            {activeItem && (
+              <div className="scale-[0.88]">
                 <PolaroidCard
-                  item={item}
-                  isActive={isActive}
-                  isPast={isPast}
+                  item={activeItem}
+                  isActive={true}
+                  isPast={false}
                   isFuture={false}
-                  index={index}
+                  index={visibleAfterItems.length - 1}
                 />
               </div>
-            );
-          })}
-        </AnimatePresence>
+            )}
+          </div>
 
-        <AnimatePresence>
-          {showComparison && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 280, damping: 26 }}
-              className="absolute bottom-16 right-8 bg-white rounded-sm polaroid-shadow p-4"
-              style={{ width: 180 }}
-            >
-              <p
-                className="font-handwritten text-center text-xs mb-3"
-                style={{ fontFamily: "Caveat", color: "#9E9890", fontSize: "12px" }}
+          <AnimatePresence>
+            {showComparison && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 18 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ type: "spring", stiffness: 280, damping: 26 }}
+                className="paper-panel absolute bottom-3 left-3 right-3 rounded-[20px] px-4 py-4 md:bottom-6 md:right-6 md:left-auto md:w-[280px]"
+                style={{ rotate: "-2deg" }}
               >
-                before vs. after
-              </p>
-              {[
-                { before: "Tutorial-trained", after: "Production-tested" },
-                { before: "Code-first", after: "Outcome-first" },
-                { before: "Single file", after: "Systems thinking" },
-              ].map((row, i) => (
-                <div key={i} className="flex items-center gap-1.5 mb-1.5">
-                  <span
-                    className="text-xs line-through flex-1 text-right"
-                    style={{ color: "#C8C0B4", fontFamily: "DM Sans", fontSize: "9px" }}
-                  >
-                    {row.before}
-                  </span>
-                  <span style={{ color: "#E8622A", fontSize: "10px" }}>→</span>
-                  <span
-                    className="text-xs flex-1 font-medium"
-                    style={{ color: "#4A4540", fontFamily: "DM Sans", fontSize: "9px" }}
-                  >
-                    {row.after}
-                  </span>
+                <p
+                  className="font-typewriter text-[10px] uppercase tracking-[0.18em]"
+                  style={{ color: "#8c6a55" }}
+                >
+                  Before vs After
+                </p>
+                <div className="mt-3 space-y-2">
+                  {[
+                    { before: "Tutorial-trained", after: "Production-tested" },
+                    { before: "Code-first", after: "Outcome-first" },
+                    { before: "Single file", after: "Systems thinking" },
+                  ].map((row) => (
+                    <div key={row.before} className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+                      <span className="text-right text-[11px] line-through" style={{ color: "#b3a18b" }}>
+                        {row.before}
+                      </span>
+                      <span style={{ color: "#b93a32" }}>→</span>
+                      <span className="text-[11px] font-medium" style={{ color: "#46372f" }}>
+                        {row.after}
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </motion.div>
   );
