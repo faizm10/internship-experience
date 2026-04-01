@@ -12,33 +12,13 @@ import { ProgressIndicator } from "./ProgressIndicator";
 import { NavigationHint } from "./NavigationHint";
 import { SpotlightOverlay } from "./SpotlightOverlay";
 import { MemoryModal } from "./MemoryModal";
-import { Zap, Monitor, Shuffle } from "lucide-react";
+import { Zap, Monitor } from "lucide-react";
 
 function ControlBar() {
   const { state, toggleSpotlight, toggleMode, surpriseMe } = usePresentation();
 
   return (
     <div className="fixed top-6 right-6 z-50 flex items-center gap-2">
-      {/* Surprise me */}
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={surpriseMe}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-sans"
-        style={{
-          fontFamily: "DM Sans",
-          backgroundColor: "rgba(247,243,236,0.85)",
-          border: "1px solid rgba(26,25,24,0.1)",
-          color: "#6B645C",
-          backdropFilter: "blur(8px)",
-          fontSize: "11px",
-        }}
-        title="Jump to a random memory"
-      >
-        <Shuffle size={10} />
-        Surprise me
-      </motion.button>
-
       {/* Spotlight toggle */}
       <motion.button
         whileHover={{ scale: 1.05 }}
@@ -141,20 +121,9 @@ function PresentationInner() {
     <div
       ref={clickRef}
       className="relative w-screen h-screen overflow-hidden select-none"
-      style={{ backgroundColor: "#F7F3EC", cursor: "default" }}
+      style={{ cursor: "default" }}
       onClick={handleClick}
     >
-      {/* Subtle grid texture */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, rgba(26,25,24,0.05) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-          opacity: 0.4,
-        }}
-      />
-
       {/* Sections — crossfade (no mode="wait" to avoid blank gaps) */}
       <AnimatePresence>
         {currentSection.id === "hero" && (

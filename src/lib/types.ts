@@ -13,7 +13,7 @@ export interface TimelineItem {
   rotation: number;
   color: string;
   emoji?: string;
-  imageUrl?: string;
+  images: [string, ...string[]];
   metric?: {
     value: string;
     label: string;

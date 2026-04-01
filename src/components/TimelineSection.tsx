@@ -42,7 +42,7 @@ export function TimelineSection({
 
   if (!visible) return null;
 
-  const containerWidth = Math.min(items.length * 240, 900);
+  const containerWidth = Math.min(items.length * 280, 1000);
 
   return (
     <motion.div
@@ -114,7 +114,7 @@ export function TimelineSection({
                   style={{
                     left: isActive ? "50%" : pos.x,
                     top: isActive ? "50%" : pos.y + 40,
-                    transform: isActive ? "translate(-110px, -130px)" : undefined,
+                    transform: isActive ? "translate(-130px, -150px)" : undefined,
                     zIndex: isActive ? 20 : index,
                     transition: "left 0.5s cubic-bezier(0.25,0.1,0,1), top 0.5s cubic-bezier(0.25,0.1,0,1)",
                   }}

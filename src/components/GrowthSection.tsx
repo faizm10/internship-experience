@@ -151,7 +151,7 @@ export function GrowthSection({ visible }: { visible: boolean }) {
                 style={{
                   left: `calc(50% + ${pos.x}px)`,
                   top: `calc(50% + ${pos.y}px)`,
-                  transform: "translate(-110px, -130px)",
+                  transform: "translate(-130px, -150px)",
                   zIndex: isActive ? 20 : index,
                 }}
               >

@@ -127,10 +127,10 @@ export function HeroSection({ visible }: { visible: boolean }) {
 
       {/* Floating polaroid accents */}
       {[
-        { top: "15%", left: "8%", rotate: -12, color: "#D4E4E8", emoji: "⚡", imageUrl: "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?auto=format&fit=crop&q=80&w=200", delay: 1.3 },
-        { top: "20%", right: "10%", rotate: 8, color: "#E4D4E8", emoji: "🚀", imageUrl: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=200", delay: 1.5 },
-        { bottom: "22%", left: "12%", rotate: 6, color: "#D4E8D4", emoji: "📊", imageUrl: "https://images.unsplash.com/photo-1551288049-bbbda536339a?auto=format&fit=crop&q=80&w=200", delay: 1.7 },
-        { bottom: "18%", right: "8%", rotate: -9, color: "#E8E4D4", emoji: "🔥", imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=200", delay: 1.9 },
+        { top: "15%", left: "8%", rotate: -12, color: "#D4E4E8", emoji: "⚡", images: ["https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?auto=format&fit=crop&q=80&w=200"], delay: 1.3 },
+        { top: "20%", right: "10%", rotate: 8, color: "#E4D4E8", emoji: "🚀", images: ["https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=200"], delay: 1.5 },
+        { bottom: "22%", left: "12%", rotate: 6, color: "#D4E8D4", emoji: "📊", images: ["https://images.unsplash.com/photo-1551288049-bbbda536339a?auto=format&fit=crop&q=80&w=200"], delay: 1.7 },
+        { bottom: "18%", right: "8%", rotate: -9, color: "#E8E4D4", emoji: "🔥", images: ["https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=200"], delay: 1.9 },
       ].map((card, i) => (
         <motion.div
           key={i}
@@ -151,14 +151,14 @@ export function HeroSection({ visible }: { visible: boolean }) {
         >
           <div
             className="bg-white polaroid-shadow rounded-sm overflow-hidden"
-            style={{ padding: "6px 6px 20px 6px", width: 80 }}
+            style={{ padding: "8px 8px 24px 8px", width: 100 }}
           >
             <div
               className="w-full rounded-sm flex items-center justify-center overflow-hidden"
-              style={{ height: 60, backgroundColor: card.color }}
+              style={{ height: 80, backgroundColor: card.color }}
             >
-              {card.imageUrl ? (
-                <img src={card.imageUrl} alt="" className="w-full h-full object-cover" />
+              {card.images && card.images.length > 0 ? (
+                <img src={card.images[0]} alt="" className="w-full h-full object-cover" />
               ) : (
                 <span style={{ fontSize: "22px" }}>{card.emoji}</span>
               )}

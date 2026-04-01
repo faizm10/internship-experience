@@ -24,7 +24,10 @@ html {
 }
 
 body {
-  background-color: var(--bg);
+  background-image: url('/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: var(--charcoal);
   font-family: 'DM Sans', system-ui, sans-serif;
   overflow: hidden;

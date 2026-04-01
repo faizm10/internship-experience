@@ -97,58 +97,70 @@ export function PolaroidCard({
     >
       {/* Polaroid frame */}
       <div
-        className="bg-white polaroid-shadow rounded-sm overflow-hidden transition-shadow duration-300"
+        className="bg-[#FDFCFB] polaroid-shadow rounded-[3px] overflow-hidden transition-all duration-300 border border-black/[0.03]"
         style={{
-          width: 220,
-          padding: "12px 12px 44px 12px",
+          width: 260,
+          padding: "14px 14px 52px 14px",
         }}
       >
-        {/* Image area */}
+        {/* Image area with inner shadow for depth */}
         <div
-          className="w-full rounded-sm overflow-hidden relative"
+          className="w-full rounded-[1px] overflow-hidden relative group/img"
           style={{
-            height: 160,
+            height: 220,
             backgroundColor: bgColor,
+            boxShadow: "inset 0 0 12px rgba(0,0,0,0.06)",
           }}
         >
+          {/* Subtle inner border for the image */}
+          <div className="absolute inset-0 border border-black/[0.04] z-10 pointer-events-none" />
+          
           {/* Visual content (Image or Emoji fallback) */}
           <div className="absolute inset-0 flex items-center justify-center">
-            {item.imageUrl ? (
+            {item.images && item.images.length > 0 ? (
               <img
-                src={item.imageUrl}
+                src={item.images[0]}
                 alt={item.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-105"
               />
             ) : (
               <span className="text-5xl">{item.emoji || "📌"}</span>
             )}
           </div>
-          {/* Category badge */}
-          <div className="absolute top-2 right-2">
-            <span
-              className="text-xs font-sans font-500 px-2 py-0.5 rounded-full text-white/90"
-              style={{ backgroundColor: "rgba(0,0,0,0.25)", fontSize: "10px", fontFamily: "DM Sans" }}
-            >
-              {item.category}
-            </span>
-          </div>
+          
+          {/* Multi-image indicator (Stack effect) */}
+          {item.images && item.images.length > 1 && (
+            <div className="absolute bottom-2 right-2 z-20 flex gap-0.5">
+              {[...Array(Math.min(item.images.length, 3))].map((_, i) => (
+                <div 
+                  key={i}
+                  className="w-1.5 h-1.5 rounded-full bg-white/80 shadow-sm border border-black/10"
+                  style={{ opacity: 1 - i * 0.2 }}
+                />
+              ))}
+            </div>
+          )}
+          
+          {/* Subtle gradient overlay for realism */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-black/[0.02] to-transparent pointer-events-none" />
+          
           {/* Metric overlay */}
           {item.metric && isActive && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.8, x: -10 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ delay: 0.3, duration: 0.4 }}
-              className="absolute bottom-2 left-2 bg-white/90 rounded px-2 py-1"
+              className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md rounded-sm px-2.5 py-1.5 z-20 shadow-sm border border-black/[0.03]"
             >
               <div
-                className="font-display text-lg leading-none"
-                style={{ color: "#E8622A", fontFamily: "Playfair Display" }}
+                className="font-display text-xl leading-none"
+                style={{ color: "#E8622A", fontFamily: "Playfair Display", fontWeight: 700 }}
               >
                 {item.metric.value}
               </div>
               <div
-                className="text-charcoal-muted leading-none mt-0.5"
-                style={{ fontSize: "9px", fontFamily: "DM Sans", color: "#6B645C" }}
+                className="text-charcoal-muted leading-none mt-1 font-medium"
+                style={{ fontSize: "9px", fontFamily: "DM Sans", color: "#6B645C", textTransform: "uppercase", letterSpacing: "0.02em" }}
               >
                 {item.metric.label}
               </div>
@@ -156,14 +168,15 @@ export function PolaroidCard({
           )}
         </div>
 
-        {/* Caption strip */}
-        <div className="pt-3 px-1">
+        {/* Caption strip with improved typography */}
+        <div className="pt-4 px-1">
           <p
-            className="font-handwritten text-center leading-tight"
+            className="font-handwritten text-center leading-tight italic"
             style={{
-              fontSize: "15px",
-              color: "#4A4540",
+              fontSize: "18px",
+              color: "#3D3935",
               fontFamily: "Caveat",
+              fontWeight: 500,
             }}
           >
             {item.caption}
