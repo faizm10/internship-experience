@@ -37,52 +37,47 @@ export function PolaroidCard({
 
   const bgColor = item.color || categoryColors[item.category] || "#E8E4D4";
 
-  const cardVariants = {
-    hidden: {
-      opacity: 0,
-      y: 60,
-      rotate: 0,
-      scale: 0.85,
-    },
-    visible: {
-      opacity: isPast ? 0.45 : 1,
-      y: 0,
-      rotate: isActive ? 0 : item.rotation,
-      scale: isActive ? 1 : isPast ? 0.88 : 1,
-      filter: isPast ? "blur(1px)" : "blur(0px)",
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.9,
-      y: -20,
-    },
-  };
-
-  const springConfig = {
-    type: "spring" as const,
-    stiffness: 260,
-    damping: 28,
-    mass: 0.8,
-  };
-
   if (isFuture) return null;
+
+  // Compute visual state — handled in animate, not variants, to avoid style conflicts
+  const targetOpacity = state.spotlightMode && !isActive ? 0.1 : isPast ? 0.45 : 1;
+  const targetFilter =
+    state.spotlightMode && !isActive
+      ? "blur(4px) saturate(0.3)"
+      : isPast
+      ? "blur(1.5px) saturate(0.6)"
+      : "blur(0px) saturate(1)";
+  const targetRotate = isActive ? 0 : item.rotation;
+  const targetScale = isActive ? 1 : isPast ? 0.88 : 1;
 
   return (
     <motion.div
       layout
       key={item.id}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      variants={cardVariants}
-      transition={springConfig}
+      initial={{ opacity: 0, y: 50, scale: 0.88, rotate: 0 }}
+      animate={{
+        opacity: targetOpacity,
+        y: 0,
+        scale: targetScale,
+        rotate: targetRotate,
+        filter: targetFilter,
+      }}
+      exit={{ opacity: 0, scale: 0.92, y: -16, transition: { duration: 0.2 } }}
+      transition={{
+        type: "spring",
+        stiffness: 280,
+        damping: 26,
+        mass: 0.7,
+        opacity: { duration: 0.3 },
+        filter: { duration: 0.3 },
+      }}
       whileHover={
         isActive
           ? {
-              scale: 1.03,
-              rotate: item.rotation * 0.3,
-              y: -6,
-              transition: { duration: 0.25 },
+              scale: 1.04,
+              rotate: item.rotation * 0.25,
+              y: -8,
+              transition: { duration: 0.2 },
             }
           : undefined
       }
@@ -91,21 +86,14 @@ export function PolaroidCard({
           expandCard(state.expandedCardId === item.id ? null : item.id);
         }
       }}
+      data-no-advance={isActive ? "true" : undefined}
       className={cn(
         "relative select-none",
         isActive && "cursor-pointer z-20",
         isPast && "pointer-events-none z-10",
         className
       )}
-      style={{
-        ...style,
-        filter: isPast
-          ? "blur(1.5px) saturate(0.6)"
-          : state.spotlightMode && !isActive
-          ? "blur(3px) saturate(0.4)"
-          : "none",
-        opacity: state.spotlightMode && !isActive ? 0.12 : undefined,
-      }}
+      style={{ ...style }}
     >
       {/* Polaroid frame */}
       <div

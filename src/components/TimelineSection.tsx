@@ -135,15 +135,12 @@ export function TimelineSection({
 
       {/* Bottom subtitle */}
       <div className="px-12 pb-20 flex-shrink-0">
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
+        <p
           className="font-handwritten text-base"
           style={{ fontFamily: "Caveat", color: "#C8C0B4", fontSize: "18px" }}
         >
           {subtitle}
-        </motion.p>
+        </p>
       </div>
     </motion.div>
   );

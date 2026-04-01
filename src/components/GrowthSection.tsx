@@ -29,28 +29,22 @@ export function GrowthSection({ visible }: { visible: boolean }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
       className="absolute inset-0 flex"
     >
       {/* Left panel: title + skills */}
       <div className="w-1/2 flex flex-col justify-center pl-12 pr-8">
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.1 }}
+        <span
           className="font-sans text-xs uppercase tracking-widest block mb-2"
           style={{ fontFamily: "DM Sans", color: "#E8622A", letterSpacing: "0.16em", fontSize: "10px" }}
         >
           After
-        </motion.span>
+        </span>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
+        <h2
           className="font-display leading-none mb-6"
           style={{
             fontFamily: "Playfair Display",
@@ -63,7 +57,7 @@ export function GrowthSection({ visible }: { visible: boolean }) {
           Growth,
           <br />
           <em style={{ fontStyle: "italic" }}>measured.</em>
-        </motion.h2>
+        </h2>
 
         <AnimatePresence>
           {showSkills && (

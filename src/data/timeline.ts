@@ -24,16 +24,16 @@ export const timelineItems: TimelineItem[] = [
     stage: "before",
     step: 1,
     title: "The Starting Point",
-    caption: "Day zero. Everything is new.",
+    caption: "I didn’t start ahead. I just started.",
     summary:
-      "Fresh out of my second year, nervous and caffeinated, staring at a codebase with 200k lines.",
+      "After first year, I honestly hadn’t done much outside of school. No side projects, no hackathons — just lectures and assignments.",
     details:
-      "I'd built side projects. I'd done tutorials. But nothing prepared me for the weight of working on something real — where actual users would break what I wrote, and actual engineers would read my code.",
+      "At the end of first year, I didn’t really know what to do or where to start. I was just one of those students doing the minimum to get by. When second year came around, something shifted. I started building small side projects, going to hackathons, and putting myself out there — not because I had a clear plan, but because I knew I had to start somewhere.",
     category: "memory",
     rotation: -2.5,
     color: "#D4E8D4",
     emoji: "🌱",
-    tags: ["week 1", "nerves", "beginnings"],
+    tags: ["first year", "starting point", "growth"],
   },
   {
     id: "before-2",
