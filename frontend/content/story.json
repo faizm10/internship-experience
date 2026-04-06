@@ -1,0 +1,105 @@
+{
+  "profile": {
+    "name": "Faiz Mustansar",
+    "role": "Software Engineer Intern",
+    "school": "University of Guelph",
+    "headline": "What I learned from my co-op",
+    "headlineMarks": [
+      { "phrase": "What I learned", "action": "underline", "color": "#2f7a4a" },
+      { "phrase": "my co-op", "action": "highlight", "color": "#8fd4a8" }
+    ],
+    "subhead": "A short, visual recap of growth, craft, and how I think now.",
+    "subheadMarks": [
+      { "phrase": "growth, craft", "action": "highlight", "color": "#7ec99a" },
+      { "phrase": "how I think now", "action": "underline", "color": "#3d8b5c" }
+    ]
+  },
+  "sections": [
+    {
+      "id": "before",
+      "navLabel": "before",
+      "headline": "Before",
+      "bullets": [
+        "I wasn’t doing much outside of school. Just mindlessly studying for exams and barely getting by.",
+        "In Jan 2024 I attended a GDSC event and met someone without a co-op program who still landed TD, Interac, Amazon, and now works at Google. It motivated me.",
+        "That’s when I started going all in: projects, hackathons, and actually building instead of only studying.",
+        "I even cross-enrolled at the University of Waterloo and pushed myself into harder rooms.",
+        "Later I got accepted to Hack the North, and that chain reaction is how I eventually got into TD."
+      ],
+      "photos": [
+        {
+          "src": "/background.png",
+          "alt": "Before section photo",
+          "captionTitle": "Starting point",
+          "captionBody": "I came in curious and unproven at scale. The goal was to learn fast with feedback.",
+          "tags": ["baseline", "expectations"]
+        }
+      ]
+    },
+    {
+      "id": "during",
+      "navLabel": "during",
+      "headline": "During",
+      "bullets": [
+        "Reviews trained my taste: clarity, edge cases, and long-term maintainability.",
+        "Ownership meant closing loops: spec, ship, monitor, and iterate.",
+        "I learned to communicate decisions and tradeoffs clearly."
+      ],
+      "photos": [
+        {
+          "src": "/grid-line.png",
+          "alt": "During section photo",
+          "captionTitle": "Feedback loop",
+          "captionBody": "I started treating review comments as a map of what great looks like and how to get there.",
+          "tags": ["reviews", "craft"]
+        },
+        {
+          "src": "/poker-night.jpeg",
+          "alt": "During section photo",
+          "captionTitle": "Ownership",
+          "captionBody": "Shipping was the easy part. The real work was understanding failure modes and follow-through.",
+          "tags": ["delivery", "reliability"]
+        }
+      ]
+    },
+    {
+      "id": "after",
+      "navLabel": "after",
+      "headline": "After",
+      "bullets": [
+        "I now default to data, tests, and small iterations over assumptions.",
+        "I think in systems: performance, reliability, observability, and humans.",
+        "I write with the reader in mind: PRs, docs, and decisions."
+      ],
+      "photos": [
+        {
+          "src": "/background.png",
+          "alt": "After section photo",
+          "captionTitle": "Mindset shift",
+          "captionBody": "From making it work to making it robust, understandable, and easy to change.",
+          "tags": ["growth", "systems"]
+        }
+      ]
+    },
+    {
+      "id": "next",
+      "navLabel": "next",
+      "headline": "Next steps",
+      "bullets": [
+        "Keep building projects with real constraints and real users.",
+        "Go deeper on systems thinking and performance engineering.",
+        "Stay consistent: ship, learn, write, repeat."
+      ],
+      "photos": [
+        {
+          "src": "/poker-night.jpeg",
+          "alt": "Next steps section photo",
+          "captionTitle": "Next",
+          "captionBody": "I want the next thing I build to be smaller, sharper, and more measurable.",
+          "tags": ["direction", "focus"]
+        }
+      ]
+    }
+  ]
+}
+
