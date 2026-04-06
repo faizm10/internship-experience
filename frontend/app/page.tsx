@@ -13,11 +13,21 @@ import { PhotoCard } from "@/components/PhotoCard"
 import { PhotoModal } from "@/components/PhotoModal"
 import { Highlighter } from "@/components/ui/highlighter"
 import { renderWithMarks, type TextMark } from "@/lib/render-with-marks"
+import { PolaroidCard } from "@/components/PolaroidCard"
+
+type HeroPolaroid = {
+  src: string
+  alt: string
+  caption: string
+}
 
 type StoryProfile = typeof story.profile & {
   headlineMarks?: TextMark[]
   subheadMarks?: TextMark[]
+  heroPolaroids?: HeroPolaroid[]
 }
+
+const HERO_POLAROID_ROTATIONS = [-4, 3, 5] as const
 
 export default function Page() {
   const profile = story.profile as StoryProfile
@@ -107,9 +117,27 @@ export default function Page() {
               </p>
             </div>
 
-            <div className="mt-10 os-mono text-[10px] tracking-[0.24em] uppercase text-muted-foreground/80">
-              Scroll
-            </div>
+            {profile.heroPolaroids?.length ? (
+              <div className="mt-10 flex flex-col items-start gap-8 sm:flex-row sm:flex-wrap sm:items-end sm:gap-6 lg:gap-8">
+                {profile.heroPolaroids.map((p, i) => (
+                  <PolaroidCard
+                    key={`${p.src}-${p.caption}`}
+                    src={p.src}
+                    alt={p.alt}
+                    caption={p.caption}
+                    rotate={HERO_POLAROID_ROTATIONS[i % HERO_POLAROID_ROTATIONS.length]}
+                    onClick={() =>
+                      setActivePhoto({
+                        src: p.src,
+                        alt: p.alt,
+                        captionTitle: p.caption,
+                        captionBody: "",
+                      })
+                    }
+                  />
+                ))}
+              </div>
+            ) : null}
           </div>
         </section>
 
