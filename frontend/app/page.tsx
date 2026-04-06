@@ -14,6 +14,7 @@ import { PhotoModal } from "@/components/PhotoModal"
 import { Highlighter } from "@/components/ui/highlighter"
 import { renderWithMarks, type TextMark } from "@/lib/render-with-marks"
 import { PolaroidCard } from "@/components/PolaroidCard"
+import { NextWorkplaceReveal } from "@/components/NextWorkplaceReveal"
 
 type HeroPolaroid = {
   src: string
@@ -144,7 +145,10 @@ export default function Page() {
         {sections.map((section) => (
           <Section key={section.id} section={section}>
             {section.id === "next" ? (
-              <div className="max-w-[720px]">
+              <div className="max-w-[720px] space-y-0">
+                {section.workplaceReveal ? (
+                  <NextWorkplaceReveal content={section.workplaceReveal} />
+                ) : null}
                 {section.photos[0] ? (
                   <PhotoCard
                     photo={section.photos[0]}
@@ -153,9 +157,9 @@ export default function Page() {
                   />
                 ) : null}
               </div>
-            ) : (
+            ) : section.photos.length > 0 ? (
               <PhotoMarquee photos={section.photos} />
-            )}
+            ) : null}
           </Section>
         ))}
 
