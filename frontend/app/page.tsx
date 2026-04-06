@@ -11,10 +11,10 @@ import { TextAnimate } from "@/components/ui/text-animate"
 import { PhotoMarquee } from "@/components/PhotoMarquee"
 import { PhotoCard } from "@/components/PhotoCard"
 import { PhotoModal } from "@/components/PhotoModal"
-import { Highlighter } from "@/components/ui/highlighter"
 import { renderWithMarks, type TextMark } from "@/lib/render-with-marks"
 import { PolaroidCard } from "@/components/PolaroidCard"
 import { NextWorkplaceReveal } from "@/components/NextWorkplaceReveal"
+import { ThankYouFireworks } from "@/components/ThankYouFireworks"
 
 type HeroPolaroid = {
   src: string
@@ -28,11 +28,18 @@ type StoryProfile = typeof story.profile & {
   heroPolaroids?: HeroPolaroid[]
 }
 
+type StoryClosing = {
+  headline: string
+  socialIntro?: string
+  socials: { label: string; href: string }[]
+}
+
 const HERO_POLAROID_ROTATIONS = [-4, 3, 5] as const
 
 export default function Page() {
   const profile = story.profile as StoryProfile
   const sections = story.sections as StorySection[]
+  const closing = (story as typeof story & { closing: StoryClosing }).closing
   const sectionIds = useMemo(() => ["hero", ...sections.map((s) => s.id), "closing"], [sections])
   const activeId = useActiveSection(sectionIds)
   const [activePhoto, setActivePhoto] = useState<StorySection["photos"][number] | null>(null)
@@ -173,15 +180,29 @@ export default function Page() {
               duration={0.35}
               once
             >
-              Closing
+              {closing.headline}
             </TextAnimate>
-            <p className="mt-6 text-[15px] leading-relaxed text-muted-foreground max-w-2xl">
-              Add a short closing line here and a link or QR code to your{" "}
-              <Highlighter action="circle" color="#5eb88a" isView>
-                portfolio
-              </Highlighter>
-              .
-            </p>
+            {closing.socialIntro ? (
+              <p className="mt-4 text-[13px] uppercase tracking-[0.18em] text-muted-foreground/90">
+                {closing.socialIntro}
+              </p>
+            ) : null}
+            <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[15px]">
+              {closing.socials.map((s) => (
+                <li key={`${s.label}-${s.href}`}>
+                  <a
+                    href={s.href}
+                    {...(s.href.startsWith("mailto:")
+                      ? {}
+                      : { target: "_blank" as const, rel: "noopener noreferrer" })}
+                    className="text-foreground/90 underline decoration-primary/35 underline-offset-4 transition hover:decoration-primary/70"
+                  >
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <ThankYouFireworks />
           </div>
         </section>
       </div>

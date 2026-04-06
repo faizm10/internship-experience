@@ -225,6 +225,15 @@
       },
       "photos": []
     }
-  ]
+  ],
+  "closing": {
+    "headline": "Closing",
+    "socialIntro": "Find me on:",
+    "socials": [
+      { "label": "GitHub", "href": "https://github.com/faizmustansar" },
+      { "label": "LinkedIn", "href": "https://www.linkedin.com/in/faizmustansar" },
+      { "label": "X", "href": "https://x.com/_faizm" }
+    ]
+  }
 }
 
