@@ -1,6 +1,7 @@
 "use client"
 
 import { Highlighter } from "@/components/ui/highlighter"
+import { renderWithMarks, type TextMark } from "@/lib/render-with-marks"
 
 export type SectionPhoto = {
   src: string
@@ -10,12 +11,35 @@ export type SectionPhoto = {
   tags?: string[]
 }
 
+export type WorkplaceTweetMedia = {
+  kind: "video" | "gif" | "image"
+  src: string
+  alt: string
+  poster?: string
+}
+
+/** Static Magic UI–style tweet card (replica), driven from JSON — no X API */
+export type WorkplaceReveal = {
+  buttonLabel: string
+  authorName: string
+  authorHandle: string
+  authorAvatarSrc?: string
+  verified?: boolean
+  tweetUrl?: string
+  body: string
+  media?: WorkplaceTweetMedia
+}
+
 export type StorySection = {
   id: string
   navLabel: string
   headline: string
   bullets: string[]
+  /** Optional per-bullet highlights; index aligns with `bullets`. */
+  bulletMarks?: TextMark[][]
   photos: SectionPhoto[]
+  /** Shown after bullets (e.g. next role reveal). */
+  workplaceReveal?: WorkplaceReveal
 }
 
 export function Section({
@@ -41,10 +65,14 @@ export function Section({
         </h2>
 
         <ul className="mt-7 space-y-3 text-[15px] leading-relaxed text-muted-foreground max-w-2xl">
-          {section.bullets.map((b) => (
-            <li key={b} className="flex gap-3">
+          {section.bullets.map((b, i) => (
+            <li key={`${section.id}-bullet-${i}`} className="flex gap-3">
               <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary/55 shrink-0" />
-              <span>{b}</span>
+              <span>
+                {section.bulletMarks?.[i]?.length
+                  ? renderWithMarks(b, section.bulletMarks[i])
+                  : b}
+              </span>
             </li>
           ))}
         </ul>
