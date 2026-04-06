@@ -28,11 +28,84 @@
       ],
       "photos": [
         {
-          "src": "/background.png",
+          "src": "/google-developer.jpeg",
           "alt": "Before section photo",
-          "captionTitle": "Starting point",
-          "captionBody": "I came in curious and unproven at scale. The goal was to learn fast with feedback.",
-          "tags": ["baseline", "expectations"]
+          "captionTitle": "Event that changed me",
+          "captionBody": "one of the most impactful events of my life as I learned that even without a co-op, you can still land a job at a big company.",
+          "tags": ["impactful", "event"]
+        },
+        {
+          "src": "/poker-night.jpeg",
+          "alt": "Before section photo",
+          "captionTitle": "unserious studying session",
+          "captionBody": "I was just studying for the sake of studying, not for the sake of learning.",
+          "tags": ["unserious", "studying"]
+        },
+        {
+          "src": "/first-website-look.jpeg",
+          "alt": "Before section photo",
+          "captionTitle": "first website build",
+          "captionBody": "I built my first website in 2024 and it turned out to be ok",
+          "tags": ["first", "website"]
+        },
+        {
+          "src": "/first-hack.jpeg",
+          "alt": "Before section photo",
+          "captionTitle": "first hackathon",
+          "captionBody": "I attended my first hackathon in 2024 and it was a great learning experience.",
+          "tags": ["first", "hackathon"]
+        },
+
+        {
+          "src": "/first-job.jpeg",
+          "alt": "Before section photo",
+          "captionTitle": "first job",
+          "captionBody": "I got my first job at my university as a undergraduate researcher in 2024 and it was a great learning experience.",
+          "tags": ["first", "research"]
+        },
+        {
+          "src": "/github-2024.png",
+          "alt": "Before section photo",
+          "captionTitle": "first year of building projects",
+          "captionBody": "I started to build projects and contribute to open source projects in 2024",
+          "tags": ["open source", "projects"]
+        },
+        {
+          "src": "/uoguelph.png",
+          "alt": "Before section photo",
+          "captionTitle": "first project with real users",
+          "captionBody": "I built my first project with real users in 2025. gained over 1k users,25+ views and managed a team of 5 people",
+          "tags": ["first", "project"]
+        },
+        {
+          "src": "/trio-student.jpeg",
+          "alt": "Before section photo",
+          "captionTitle": "enrolled into three different universities",
+          "captionBody": "I enrolled into three different universities in 2025. uw was for networking and learning, guelph was for easy courses and ottawa is where i had to complete a mandatory course",
+          "tags": ["universities", "insane"]
+        },  
+        {
+          "src": "/soccer.jpeg",
+          "alt": "Before section photo",
+          "captionTitle": "playing in 7 leagues during summer 2025",
+          "captionBody": "playing in 7 leagues during summer 2025 even tho i was doing 7 courses across 3 universities",
+          "tags": ["soccer", "fun"]
+        }
+        ,
+        {
+          "src": "/htn.png",
+          "alt": "Before section photo",
+          "captionTitle": "accepted into canada's biggest hackathon",
+          "captionBody": "accepted into canada's biggest hackathon. this is how i landed my first real job at td bank!",
+          "tags": ["hackathon", "job"]
+        },
+
+        {
+          "src": "/github-2024.png",
+          "alt": "Before section photo",
+          "captionTitle": "2nd year of building projects",
+          "captionBody": "more projects, more users, more views",
+          "tags": ["projects", "users", "views"]
         }
       ]
     },
