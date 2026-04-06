@@ -131,9 +131,10 @@
       "navLabel": "during",
       "headline": "During",
       "bullets": [
-        "Reviews trained my taste: clarity, edge cases, and long-term maintainability.",
-        "Ownership meant closing loops: spec, ship, monitor, and iterate.",
-        "I learned to communicate decisions and tradeoffs clearly."
+        "I learned what real software engineering looks like: team practices, reviews, and shipping maintainable code.",
+        "Command-pattern cleanup and a lot of JUnit. Some days JUnit felt like the main job where I was writing more tests than the actual dev work.",
+        "On the side I asked Walter for more work, and he gave me a proof of concept to own. I learned a lot from it: documenting code, testing, and preparing presentations for town hall and our POD and more.",
+        "Outside of work, I organized hackcanada2026 as a vp of tech, played in couple of soccer leagues and kept on building more projects"
       ],
       "photos": [
         {
@@ -156,6 +157,13 @@
           "captionTitle": "Canada vs Iceland",
           "captionBody": "Canada vs Iceland. Canada tied 2-2",
           "tags": ["soccer", "fun"]
+        },
+        {
+          "src": "/image.png",
+          "alt": "github contributions",
+          "captionTitle": "2026 github contributions",
+          "captionBody": "just getting started with 2026",
+          "tags": ["github", "2026"]
         }
       ]
     },
@@ -164,19 +172,26 @@
       "navLabel": "after",
       "headline": "After",
       "bullets": [
-        "I now default to data, tests, and small iterations over assumptions.",
-        "I think in systems: performance, reliability, observability, and humans.",
-        "I write with the reader in mind: PRs, docs, and decisions."
+        "Honestly, I'm still carrying what I showed up with: I want work I can own.",
+        "One thing I want to improve is asking why on the business side too not only why something is built a certain way in the code.",
+        "I also want to be more descriptive in PRs so reviewers get context without having to read my mind."
       ],
-      "photos": [
-        {
-          "src": "/background.png",
-          "alt": "After section photo",
-          "captionTitle": "Mindset shift",
-          "captionBody": "From making it work to making it robust, understandable, and easy to change.",
-          "tags": ["growth", "systems"]
-        }
-      ]
+      "bulletMarks": [
+        [
+          { "phrase": "Honestly", "action": "underline", "color": "#3d8b5c" },
+          { "phrase": "work I can own", "action": "highlight", "color": "#7ec99a" }
+        ],
+        [
+          { "phrase": "asking why", "action": "highlight", "color": "#8fd4a8" },
+          { "phrase": "business side", "action": "underline", "color": "#2f7a4a" },
+          { "phrase": "the code", "action": "highlight", "color": "#6bbf8f" }
+        ],
+        [
+          { "phrase": "more descriptive", "action": "underline", "color": "#3d8b5c" },
+          { "phrase": "PRs", "action": "highlight", "color": "#5eb88a" }
+        ]
+      ],
+      "photos": []
     },
     {
       "id": "next",
@@ -185,17 +200,30 @@
       "bullets": [
         "Keep building projects with real constraints and real users.",
         "Go deeper on systems thinking and performance engineering.",
-        "Stay consistent: ship, learn, write, repeat."
+        "Stay consistent: ship, learn, write, repeat.",
+        "Where you think i'll be working summer 2026??"
       ],
-      "photos": [
-        {
-          "src": "/poker-night.jpeg",
-          "alt": "Next steps section photo",
-          "captionTitle": "Next",
-          "captionBody": "I want the next thing I build to be smaller, sharper, and more measurable.",
-          "tags": ["direction", "focus"]
-        }
-      ]
+      "bulletMarks": [
+        [],
+        [],
+        [],
+        [
+          {
+            "phrase": "Where you think i'll be working summer 2026??",
+            "action": "highlight",
+            "color": "#7ec99a"
+          }
+        ]
+      ],
+      "workplaceReveal": {
+        "buttonLabel": "Reveal where I'm headed",
+        "authorName": "Faiz Mustansar",
+        "authorHandle": "_faizm",
+        "verified": true,
+        "tweetUrl": "https://x.com",
+        "body": "I'm excited to share that I'm joining Tangerine as a Software Developer Intern this summer.\n\nScotiabank's digital bank — can't wait to build with the team."
+      },
+      "photos": []
     }
   ]
 }
