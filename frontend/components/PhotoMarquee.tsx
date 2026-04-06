@@ -12,16 +12,10 @@ export function PhotoMarquee({ photos }: { photos: SectionPhoto[] }) {
   const rows = useMemo(() => {
     if (photos.length <= 5) return [photos]
 
-    const rowA: SectionPhoto[] = []
-    const rowB: SectionPhoto[] = []
-
-    // Distribute alternately for better visual balance
-    photos.forEach((p, i) => {
-      if (i % 2 === 0) rowA.push(p)
-      else rowB.push(p)
-    })
-
-    return [rowA, rowB]
+    // Split in story order: first chunk → top row, second chunk → bottom row.
+    // Counts differ by at most one when odd (e.g. 11 → 6 + 5).
+    const mid = Math.ceil(photos.length / 2)
+    return [photos.slice(0, mid), photos.slice(mid)]
   }, [photos])
 
   return (
