@@ -12,6 +12,23 @@
     "subheadMarks": [
       { "phrase": "growth, craft", "action": "highlight", "color": "#7ec99a" },
       { "phrase": "how I think now", "action": "underline", "color": "#3d8b5c" }
+    ],
+    "heroPolaroids": [
+      {
+        "src": "/morning-commute.jpeg",
+        "alt": "Google Developer event",
+        "caption": "morning commute"
+      },
+      {
+        "src": "/td-bank.jpeg",
+        "alt": "1 week before td bank coop term",
+        "caption": "1 week before td bank coop term"
+      },
+      {
+        "src": "/night-commute.jpeg",
+        "alt": "Night commute",
+        "caption": "night commute"
+      }
     ]
   },
   "sections": [
@@ -101,7 +118,7 @@
         },
 
         {
-          "src": "/github-2024.png",
+          "src": "/github-2025.png",
           "alt": "Before section photo",
           "captionTitle": "2nd year of building projects",
           "captionBody": "more projects, more users, more views",
@@ -120,18 +137,25 @@
       ],
       "photos": [
         {
-          "src": "/grid-line.png",
-          "alt": "During section photo",
-          "captionTitle": "Feedback loop",
-          "captionBody": "I started treating review comments as a map of what great looks like and how to get there.",
-          "tags": ["reviews", "craft"]
+          "src": "/hc.png",
+          "alt": "Hack Canada",
+          "captionTitle": "organized hackcanada2026 as a vp of tech",
+          "captionBody": "organized hackcanada2026 as a vp of tech. had 700+ participants and developed 2 main sites to support. judging + main site",
+          "tags": ["unserious", "hackathon"]
         },
         {
-          "src": "/poker-night.jpeg",
-          "alt": "During section photo",
-          "captionTitle": "Ownership",
-          "captionBody": "Shipping was the easy part. The real work was understanding failure modes and follow-through.",
-          "tags": ["delivery", "reliability"]
+          "src": "/locked-in.jpeg",
+          "alt": "locked in",
+          "captionTitle": "locked in work session",
+          "captionBody": "locked in work session. worked on onboarding and understanding the codebase",
+          "tags": ["locked in", "work"]
+        },
+        {
+          "src": "/canada.jpeg",
+          "alt": "canada game",
+          "captionTitle": "Canada vs Iceland",
+          "captionBody": "Canada vs Iceland. Canada tied 2-2",
+          "tags": ["soccer", "fun"]
         }
       ]
     },
