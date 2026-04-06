@@ -23,15 +23,14 @@ export function PhotoCard({
         className
       )}
     >
-      <div className="relative aspect-4/3">
+      <div className="relative aspect-4/3 bg-muted/30">
         <Image
           src={photo.src}
           alt={photo.alt}
           fill
           sizes="(max-width: 768px) 280px, 320px"
-          className="object-cover opacity-[0.92] group-hover:opacity-100 transition-opacity"
+          className="object-contain opacity-[0.96] group-hover:opacity-100 transition-opacity"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-black/45 via-black/10 to-transparent" />
         <div className="absolute inset-0 ring-1 ring-inset ring-black/10" />
       </div>
 

@@ -45,15 +45,14 @@ export function PhotoModal({
               className="w-full max-w-3xl overflow-hidden rounded-3xl border border-border bg-background/85 backdrop-blur-2xl shadow-[0_40px_120px_rgba(0,0,0,0.18)]"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative aspect-16/10">
+              <div className="relative aspect-16/10 bg-muted/30">
                 <Image
                   src={photo.src}
                   alt={photo.alt}
                   fill
                   sizes="(max-width: 768px) 100vw, 900px"
-                  className="object-cover"
+                  className="object-contain"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-black/0" />
               </div>
 
               <div className="p-6">
