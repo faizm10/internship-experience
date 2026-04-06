@@ -9,32 +9,45 @@ import { PhotoModal } from "@/components/PhotoModal"
 export function PhotoMarquee({ photos }: { photos: SectionPhoto[] }) {
   const [active, setActive] = useState<SectionPhoto | null>(null)
 
-  const half = useMemo(() => {
-    const mid = Math.ceil(photos.length / 2)
-    return [photos.slice(0, mid), photos.slice(mid)]
-  }, [photos])
+  const rows = useMemo(() => {
+    if (photos.length <= 5) return [photos]
 
-  const rowA = half[0].length ? half[0] : photos
-  const rowB = half[1].length ? half[1] : photos
+    const rowA: SectionPhoto[] = []
+    const rowB: SectionPhoto[] = []
+
+    // Distribute alternately for better visual balance
+    photos.forEach((p, i) => {
+      if (i % 2 === 0) rowA.push(p)
+      else rowB.push(p)
+    })
+
+    return [rowA, rowB]
+  }, [photos])
 
   return (
     <div className="relative overflow-hidden">
-      {/* Desktop: two horizontal rows */}
+      {/* Desktop: one row (<=5 photos) or two balanced rows (>5) */}
       <div className="hidden md:block">
         <Marquee pauseOnHover className="[--duration:42s] [--gap:1.25rem]">
-          {rowA.map((p) => (
+          {(rows[0] ?? []).map((p) => (
             <PhotoCard key={`${p.src}-${p.captionTitle}`} photo={p} onClick={() => setActive(p)} />
           ))}
         </Marquee>
-        <Marquee
-          pauseOnHover
-          reverse
-          className="mt-3 [--duration:48s] [--gap:1.25rem]"
-        >
-          {rowB.map((p) => (
-            <PhotoCard key={`${p.src}-${p.captionTitle}-b`} photo={p} onClick={() => setActive(p)} />
-          ))}
-        </Marquee>
+        {rows.length > 1 ? (
+          <Marquee
+            pauseOnHover
+            reverse
+            className="mt-3 [--duration:48s] [--gap:1.25rem]"
+          >
+            {(rows[1] ?? []).map((p) => (
+              <PhotoCard
+                key={`${p.src}-${p.captionTitle}-b`}
+                photo={p}
+                onClick={() => setActive(p)}
+              />
+            ))}
+          </Marquee>
+        ) : null}
       </div>
 
       {/* Mobile: vertical marquee */}
