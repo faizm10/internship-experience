@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo, useState } from "react"
 import { Highlighter } from "@/components/ui/highlighter"
 import { renderWithMarks, type TextMark } from "@/lib/render-with-marks"
 
@@ -61,6 +62,14 @@ export function Section({
   section: StorySection
   children?: React.ReactNode
 }) {
+  const totalBullets = section.bullets.length
+  const [revealedCount, setRevealedCount] = useState(0)
+  const visibleBullets = useMemo(
+    () => section.bullets.slice(0, Math.min(revealedCount, totalBullets)),
+    [revealedCount, section.bullets, totalBullets]
+  )
+  const isDone = revealedCount >= totalBullets
+
   return (
     <section
       id={section.id}
@@ -77,10 +86,10 @@ export function Section({
         </h2>
 
         <ul className="mt-7 space-y-3 text-[15px] leading-relaxed text-muted-foreground max-w-2xl">
-          {section.bullets.map((b, i) => (
+          {visibleBullets.map((b, i) => (
             <li key={`${section.id}-bullet-${i}`} className="flex gap-3">
               <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary/55 shrink-0" />
-              <span>
+              <span className="animate-in fade-in slide-in-from-bottom-1 duration-300">
                 {section.bulletMarks?.[i]?.length
                   ? renderWithMarks(b, section.bulletMarks[i])
                   : b}
@@ -88,6 +97,41 @@ export function Section({
             </li>
           ))}
         </ul>
+
+        {totalBullets > 0 ? (
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setRevealedCount((c) => Math.min(c + 1, totalBullets))}
+              disabled={isDone}
+              className="inline-flex h-10 items-center justify-center rounded-2xl border border-border bg-background/60 px-4 text-[13px] text-foreground shadow-sm backdrop-blur-sm transition hover:bg-background/80 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {revealedCount === 0 ? "Start" : isDone ? "All shown" : "Next"}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setRevealedCount(totalBullets)}
+              disabled={isDone}
+              className="inline-flex h-10 items-center justify-center rounded-2xl border border-border bg-background/40 px-4 text-[13px] text-foreground/90 transition hover:bg-background/60 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Reveal all
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setRevealedCount(0)}
+              disabled={revealedCount === 0}
+              className="inline-flex h-10 items-center justify-center rounded-2xl border border-border bg-transparent px-4 text-[13px] text-muted-foreground transition hover:bg-background/40 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Reset
+            </button>
+
+            <div className="text-[12px] text-muted-foreground">
+              {Math.min(revealedCount, totalBullets)}/{totalBullets}
+            </div>
+          </div>
+        ) : null}
 
         <div className="mt-10">{children}</div>
       </div>

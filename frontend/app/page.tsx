@@ -16,6 +16,8 @@ import { PolaroidCard } from "@/components/PolaroidCard"
 import { NextWorkplaceReveal } from "@/components/NextWorkplaceReveal"
 import { ThankYouFireworks } from "@/components/ThankYouFireworks"
 import DomeGallery, { type DomeGalleryImage } from "@/components/ui/DomeGallery"
+import { QrCode } from "@/components/QrCode"
+import Image from "next/image"
 
 type HeroPolaroid = {
   src: string
@@ -172,6 +174,21 @@ export default function Page() {
           <Section key={section.id} section={section}>
             {section.id === "next" ? (
               <div className="max-w-[720px] space-y-0">
+                <figure className="mb-8">
+                  <div className="overflow-hidden rounded-3xl border border-border bg-background/60 shadow-sm backdrop-blur-sm">
+                    <Image
+                      src="/next-steps-sankey.png"
+                      alt="Internship application funnel Sankey diagram"
+                      width={1200}
+                      height={1200}
+                      className="h-auto w-full"
+                      priority
+                    />
+                  </div>
+                  <figcaption className="mt-3 text-[12px] text-muted-foreground">
+                    Internship application funnel (Sankey)
+                  </figcaption>
+                </figure>
                 {section.workplaceReveal ? (
                   <NextWorkplaceReveal content={section.workplaceReveal} />
                 ) : null}
@@ -197,38 +214,51 @@ export default function Page() {
         ))}
 
         <section id="closing" className="min-h-svh pt-16 pb-14 flex items-start overflow-hidden">
-          <div className="max-w-4xl w-full">
-            <TextAnimate
-              as="h2"
-              className="text-[44px] leading-[0.92] font-heading text-foreground"
-              animation="blurInUp"
-              by="word"
-              duration={0.35}
-              once
-            >
-              {closing.headline}
-            </TextAnimate>
-            {closing.socialIntro ? (
-              <p className="mt-4 text-[13px] uppercase tracking-[0.18em] text-muted-foreground/90">
-                {closing.socialIntro}
-              </p>
-            ) : null}
-            <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[15px]">
-              {closing.socials.map((s) => (
-                <li key={`${s.label}-${s.href}`}>
-                  <a
-                    href={s.href}
-                    {...(s.href.startsWith("mailto:")
-                      ? {}
-                      : { target: "_blank" as const, rel: "noopener noreferrer" })}
-                    className="text-foreground/90 underline decoration-primary/35 underline-offset-4 transition hover:decoration-primary/70"
-                  >
-                    {s.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <ThankYouFireworks />
+          <div className="max-w-5xl w-full">
+            <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-start">
+              <div className="max-w-4xl">
+                <TextAnimate
+                  as="h2"
+                  className="text-[44px] leading-[0.92] font-heading text-foreground"
+                  animation="blurInUp"
+                  by="word"
+                  duration={0.35}
+                  once
+                >
+                  {closing.headline}
+                </TextAnimate>
+                {closing.socialIntro ? (
+                  <p className="mt-4 text-[13px] uppercase tracking-[0.18em] text-muted-foreground/90">
+                    {closing.socialIntro}
+                  </p>
+                ) : null}
+                <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[15px]">
+                  {closing.socials.map((s) => (
+                    <li key={`${s.label}-${s.href}`}>
+                      <a
+                        href={s.href}
+                        {...(s.href.startsWith("mailto:")
+                          ? {}
+                          : { target: "_blank" as const, rel: "noopener noreferrer" })}
+                        className="text-foreground/90 underline decoration-primary/35 underline-offset-4 transition hover:decoration-primary/70"
+                      >
+                        {s.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+                <ThankYouFireworks />
+              </div>
+
+              <div className="lg:pt-2">
+                <div className="os-mono text-[11px] tracking-[0.26em] uppercase text-muted-foreground">
+                  scan to open
+                </div>
+                <div className="mt-3">
+                  <QrCode value="https://faizm.ca" size={164} />
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
