@@ -214,6 +214,68 @@ export default function Page() {
                   />
                 ) : null}
               </div>
+            ) : section.id === "during" ? (
+              <div className="space-y-8">
+                <div className="rounded-[28px] border border-border bg-background/70 p-5 shadow-sm backdrop-blur-xl sm:p-6">
+                  <div className="flex flex-wrap items-baseline justify-between gap-3">
+                    <div className="text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
+                      how code moved to production
+                    </div>
+                    <div className="text-[11px] text-muted-foreground/80">
+                      from "push to main" to risk gates
+                    </div>
+                  </div>
+
+                  <div className="mt-5 grid gap-6 md:grid-cols-2">
+                    <div className="space-y-3">
+                      <div className="text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
+                        side projects / hackathons
+                      </div>
+                      <div className="inline-flex flex-wrap items-center gap-1.5 rounded-2xl bg-muted/40 px-3 py-2 text-[12px] text-foreground/90">
+                        <span className="rounded-full bg-background px-3 py-1 shadow-sm">code</span>
+                        <span className="text-muted-foreground">→</span>
+                        <span className="rounded-full bg-background px-3 py-1 shadow-sm">feature branch</span>
+                        <span className="text-muted-foreground">→</span>
+                        <span className="rounded-full bg-background px-3 py-1 shadow-sm">quick checks</span>
+                        <span className="text-muted-foreground">→</span>
+                        <span className="rounded-full bg-background px-3 py-1 shadow-sm">main</span>
+                        <span className="text-muted-foreground">→</span>
+                        <span className="rounded-full bg-background px-3 py-1 shadow-sm">deploy</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
+                        td bank credit platform
+                      </div>
+                      <div className="inline-flex flex-wrap items-center gap-1.5 rounded-2xl bg-muted/40 px-3 py-2 text-[12px] text-foreground/90">
+                        <span className="rounded-full bg-background px-3 py-1 shadow-sm">code</span>
+                        <span className="text-muted-foreground">→</span>
+                        <span className="rounded-full bg-background px-3 py-1 shadow-sm">feature branch</span>
+                        <span className="text-muted-foreground">→</span>
+                        <span className="rounded-full bg-background px-3 py-1 shadow-sm">feature project</span>
+                        <span className="text-muted-foreground">→</span>
+                        <span className="rounded-full bg-background px-3 py-1 shadow-sm">junit + checks</span>
+                        <span className="text-muted-foreground">→</span>
+                        <span className="rounded-full bg-background px-3 py-1 shadow-sm">release project</span>
+                        <span className="text-muted-foreground">→</span>
+                        <span className="rounded-full bg-background px-3 py-1 shadow-sm">prod</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {section.photos.length > 0 ? (
+                  <PhotoCarousel
+                    photos={section.photos}
+                    onOpen={(p, i, photos) => {
+                      setActivePhoto(p)
+                      setActivePhotoSet(photos)
+                      setActivePhotoIndex(i)
+                    }}
+                  />
+                ) : null}
+              </div>
             ) : section.photos.length > 0 ? (
               <PhotoCarousel
                 photos={section.photos}

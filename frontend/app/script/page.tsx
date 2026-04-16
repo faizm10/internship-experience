@@ -1,50 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { motion, AnimatePresence } from "framer-motion"
 
 import { BackgroundLayer } from "@/components/BackgroundLayer"
-import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-
-type DuringTrackId = "debugging" | "teamwork" | "tooling"
-
-const DURING_TRACKS: Record<
-  DuringTrackId,
-  {
-    label: string
-    title: string
-    problem: string
-    tried: string
-    worked: string
-    learned: string
-  }
-> = {
-  debugging: {
-    label: "Debugging",
-    title: "During — Debugging moment",
-    problem: "Problem: I hit ___ (symptom + impact).",
-    tried: "What I tried: ___ (first hypothesis + test).",
-    worked: "What worked: ___ (the fix + why it was the right lever).",
-    learned: "What I learned: ___ (one sentence principle I’ll reuse).",
-  },
-  teamwork: {
-    label: "Teamwork",
-    title: "During — Collaboration moment",
-    problem: "Problem: I needed ___ (clarity, alignment, review, unblock).",
-    tried: "What I tried: ___ (how I asked / what I shared).",
-    worked: "What worked: ___ (the change that reduced friction).",
-    learned: "What I learned: ___ (communication habit I’ll keep).",
-  },
-  tooling: {
-    label: "Tooling",
-    title: "During — Tooling / workflow moment",
-    problem: "Problem: ___ was slowing me down (CI, builds, review loops).",
-    tried: "What I tried: ___ (small process or tooling change).",
-    worked: "What worked: ___ (the before/after effect).",
-    learned: "What I learned: ___ (a workflow pattern I’ll apply again).",
-  },
-}
 
 function SectionHeading({
   eyebrow,
@@ -83,10 +42,6 @@ function ScriptLine({
 }
 
 export default function ScriptPage() {
-  const [duringTrack, setDuringTrack] = React.useState<DuringTrackId>("debugging")
-
-  const chosen = DURING_TRACKS[duringTrack]
-
   return (
     <main className="min-h-svh">
       <BackgroundLayer />
@@ -94,135 +49,66 @@ export default function ScriptPage() {
       <div className="mx-auto max-w-5xl px-6 py-10 lg:py-14">
         <SectionHeading
           eyebrow="Presenter script"
-          title="Before / During / After — talk track (5–10 minutes)"
+          title="What I actually say over the deck"
         />
 
-        <div className="mt-8 grid gap-6">
-          <ScriptLine
-            label="0:00–0:15 — Set expectation (say this)"
-            text='“I’ll keep this to ~5 minutes: before/during/after, then one quick vote.”'
+        <div className="mt-8 grid gap-4 border-t border-border/60 pt-8">
+          <SectionHeading
+            eyebrow="Full talk track"
+            title="What I actually say over the deck"
           />
 
-          <div className="grid gap-4">
-            <SectionHeading eyebrow="Before" title="Before internship (0:15–1:10)" />
-            <div className="grid gap-3 md:grid-cols-2">
-              <ScriptLine
-                label="Expectation"
-                text="“Before: I came in expecting ___.”"
-              />
-              <ScriptLine
-                label="Goal"
-                text="“My main goal was ___ (skill/system/habit).”"
-              />
-            </div>
-            <ScriptLine
-              label="Nerves (optional)"
-              text="“The thing I was most nervous about was ___.”"
-            />
-          </div>
+          <ScriptLine
+            label="Intro"
+            text="Hi, I’m Faiz Mustansar, a software engineering student at the University of Guelph. This isn’t a resume reading—it’s a short story about growth, craft, and community: the hackathons I’ve been to, the ones I’ve helped run, and what my internships have actually taught me."
+          />
 
-          <div className="grid gap-4">
-            <SectionHeading eyebrow="During" title="During internship (1:10–3:40)" />
+          <ScriptLine
+            label="Hackathons overview"
+            text="I treat hackathons as a serious side practice. Sometimes I’m a hacker shipping full‑stack or ML demos in 24–36 hours, sometimes an organizer making sure hundreds of hackers can ship, and sometimes a mentor or judge. The QR on the landing page points to a running list of events, projects, teammates, and wins."
+          />
 
-            <ScriptLine
-              label="Interactive vote (say this)"
-              text='“Quick vote: which ‘During’ moment do you want?”'
-            />
+          <ScriptLine
+            label="HackCanada arc"
+            text="HackCanada is where things flipped from just hacking to organizing. I first showed up in 2025 as a hacker and we built TenantShield, an AI legal assistant for Canadian renters. After that I joined the organizing team, got rejected for a co‑lead role, took a regular frontend role anyway, and a couple of months later James DM’d me on Discord asking if I would step up as tech lead—so I ended up VP of Technology for HackCanada 2026."
+          />
 
-            <div className="flex flex-wrap gap-2">
-              {(Object.keys(DURING_TRACKS) as DuringTrackId[]).map((id) => {
-                const active = id === duringTrack
-                return (
-                  <Button
-                    key={id}
-                    type="button"
-                    variant={active ? "default" : "outline"}
-                    onClick={() => setDuringTrack(id)}
-                  >
-                    {DURING_TRACKS[id].label}
-                  </Button>
-                )
-              })}
-            </div>
+          <ScriptLine
+            label="HackCanada 2026 – responsibilities"
+            text="As VP of Tech my world shrank down to two systems: the hackcanada.org website, which every hacker, sponsor, and judge touched, and the judging platform, which had to ingest hundreds of projects, route them to judges, track scores, and surface results at the end of 36 hours. If either broke at 2 a.m., it was my problem."
+          />
 
-            <div className="rounded-3xl border border-border bg-background/60 p-5 backdrop-blur-2xl">
-              <div className="flex items-center justify-between gap-4">
-                <div className="text-[13px] uppercase tracking-[0.18em] text-muted-foreground">
-                  Read this section after the vote
-                </div>
-                <motion.div
-                  layout
-                  className="rounded-full border border-border bg-muted px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-muted-foreground"
-                >
-                  {DURING_TRACKS[duringTrack].label}
-                </motion.div>
-              </div>
+          <ScriptLine
+            label="Judging incident"
+            text="We had one real scare on judging: a last‑minute config change plus way more submissions than expected led to about an hour‑long delay. Within ten minutes my phone, Discord, WhatsApp, and the event floor all lit up at once—everyone needed an answer while I still needed time to debug. We fixed it, but that window taught me a lot about owning incidents, communicating under pressure, and designing systems that fail more gracefully next time."
+          />
 
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={duringTrack}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 6 }}
-                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                  className="mt-4 grid gap-3"
-                >
-                  <div className="font-heading text-[22px] leading-tight text-foreground">
-                    {chosen.title}
-                  </div>
-                  <div className="grid gap-2">
-                    <div className="text-[15px] leading-relaxed text-foreground/90">
-                      {chosen.problem}
-                    </div>
-                    <div className="text-[15px] leading-relaxed text-foreground/90">
-                      {chosen.tried}
-                    </div>
-                    <div className="text-[15px] leading-relaxed text-foreground/90">
-                      {chosen.worked}
-                    </div>
-                    <div className="text-[15px] leading-relaxed text-foreground/90">
-                      {chosen.learned}
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+          <ScriptLine
+            label="TD Bank – getting in"
+            text="My first real internship was at TD Bank on the Credit Origination and Funding team in Toronto. The offer came in the middle of Hack the North: phone call Monday, confirmation Thursday, interview Saturday evening while I was hacking. I’d been applying since summer 2024 with nothing to show, so that weekend was a turning point: the hackathon work I’d been doing finally connected to an actual offer."
+          />
 
-            <ScriptLine
-              label="Optional extra moment (45–60s)"
-              text="“One more quick moment: a mistake/tradeoff I made → and the correction I learned.”"
-            />
-          </div>
+          <ScriptLine
+            label="TD Bank – work"
+            text="Day‑to‑day work was tracing flows where customer intent becomes real money movement—helping in‑branch employees process and fund applications for mortgages, credit cards, loans, and lines of credit. I spent a lot of time refactoring legacy Java/Spring code so new changes were safer, and peeling out an old command pattern while helping migrate parts of the stack forward."
+          />
 
-          <div className="grid gap-4">
-            <SectionHeading eyebrow="After" title="After internship (4:40–5:40)" />
-            <div className="grid gap-3 md:grid-cols-3">
-              <ScriptLine label="Impact" text="“After: I can now do ___ faster/better.”" />
-              <ScriptLine label="Apply it" text="“I’ll apply it here by ___.”" />
-              <ScriptLine label="Do-over" text="“If I did it again, I’d ___.”" />
-            </div>
-          </div>
+          <ScriptLine
+            label="TD Bank – learning"
+            text="Some of the best learning came on the commute home with my tech lead—20‑minute deep dives into why Java looks the way it does in production, what patterns actually matter, and how to think like a senior engineer instead of just a ticket closer."
+          />
 
-          <div className="grid gap-4">
-            <SectionHeading eyebrow="Close" title="Wrap (6:30–7:00)" />
-            <div className="grid gap-3 md:grid-cols-2">
-              <ScriptLine
-                label="1 quick question"
-                text='“Quick question: would you pick A/B/C? (or hands up for X).”'
-              />
-              <ScriptLine
-                label="Ask"
-                text='“My ask: can someone point me to / sanity-check ___?”'
-              />
-            </div>
-            <ScriptLine
-              label="Optional follow-up"
-              text='“If anyone wants deeper detail, I’m happy to do a 15-min follow-up.”'
-            />
-          </div>
+          <ScriptLine
+            label="Projects & resume pieces"
+            text="Outside of TD and HackCanada I keep building: uoguelph.courses for course search and reviews, Octree as an AI‑powered LaTeX editor, Arcki as a 3D world editor on a globe, the U of G Webring, and TripLoom for AI‑assisted travel planning. Those projects are where I practice product sense, not just code."
+          />
+
+          <ScriptLine
+            label="Closing"
+            text="If I compress all of this into one idea, it’s that I build in three layers: as a hacker under time pressure, as an organizer keeping the lights on for everyone else, and as an engineer shipping stable systems in production. Hackathons taught me to move fast, organizing taught me to own the platform, and internships taught me where to be careful—that’s what the landing page and photos are really documenting."
+          />
         </div>
       </div>
     </main>
   )
 }
-
