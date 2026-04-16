@@ -216,12 +216,14 @@
         ]
       ],
       "workplaceReveal": {
+        "kind": "linkedin",
         "buttonLabel": "Reveal where I'm headed",
         "authorName": "Faiz Mustansar",
-        "authorHandle": "_faizm",
-        "verified": true,
-        "tweetUrl": "https://x.com",
-        "body": "I'm excited to share that I'm joining Tangerine as a Software Developer Intern this summer.\n\nScotiabank's digital bank — can't wait to build with the team."
+        "headline": "Software Developer Intern",
+        "subheadline": "University of Guelph • Summer 2026",
+        "companyName": "Tangerine",
+        "companyUrl": "https://www.tangerine.ca/",
+        "body": "I’m excited to share that I’m joining Tangerine as a Software Developer Intern this summer.\n\nScotiabank’s digital bank — can’t wait to build with the team."
       },
       "photos": []
     }

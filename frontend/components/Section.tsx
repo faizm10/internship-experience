@@ -20,14 +20,26 @@ export type WorkplaceTweetMedia = {
 
 /** Static Magic UI–style tweet card (replica), driven from JSON — no X API */
 export type WorkplaceReveal = {
+  kind?: "linkedin" | "tweet"
   buttonLabel: string
+  /** Common author fields (used for both reveal styles) */
   authorName: string
-  authorHandle: string
+  authorHandle?: string
   authorAvatarSrc?: string
+
+  /** Legacy tweet-style fields (optional if using LinkedIn style) */
   verified?: boolean
   tweetUrl?: string
   body: string
   media?: WorkplaceTweetMedia
+
+  /** LinkedIn-style fields (optional) */
+  headline?: string
+  subheadline?: string
+  companyName?: string
+  companyUrl?: string
+  companyLogoSrc?: string
+  companyCoverSrc?: string
 }
 
 export type StorySection = {
