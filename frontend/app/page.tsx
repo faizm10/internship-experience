@@ -39,6 +39,8 @@ type StoryClosing = {
 
 const HERO_POLAROID_ROTATIONS = [-4, 3, 5] as const
 
+const PHOTOS_PAGE_URL = "https://internship-experience-nu.vercel.app/photos"
+
 export default function Page() {
   const profile = story.profile as StoryProfile
   const sections = story.sections as StorySection[]
@@ -129,13 +131,25 @@ export default function Page() {
       <div className="mx-auto max-w-6xl px-6 lg:pl-44 xl:pl-52">
         <section id="hero" className="min-h-svh pt-16 pb-14 flex items-start overflow-hidden">
           <div className="max-w-5xl w-full">
-            <div className="os-mono text-[11px] tracking-[0.26em] uppercase text-muted-foreground">
-              {profile.role} · {profile.school}
-            </div>
+            <div className="mt-6 grid gap-6 sm:grid-cols-[1fr_auto] sm:items-end">
+              <div>
+                <div className="os-mono text-[11px] tracking-[0.26em] uppercase text-muted-foreground">
+                  {profile.role} · {profile.school}
+                </div>
+                <h1 className="mt-6 text-[68px] leading-[0.86] font-heading text-foreground">
+                  {profile.name}
+                </h1>
+              </div>
 
-            <h1 className="mt-6 text-[68px] leading-[0.86] font-heading text-foreground">
-              {profile.name}
-            </h1>
+              <div className="shrink-0 sm:pb-[6px]">
+                <div className="os-mono text-[11px] tracking-[0.26em] uppercase text-muted-foreground sm:text-right">
+                  scan · photos
+                </div>
+                <div className="mt-2 sm:flex sm:justify-end">
+                  <QrCode value={PHOTOS_PAGE_URL} size={132} />
+                </div>
+              </div>
+            </div>
 
             <div className="mt-8 max-w-3xl">
               <p className="text-[20px] leading-relaxed text-foreground/80">
