@@ -8,13 +8,14 @@ import { Section, type StorySection } from "@/components/Section"
 import { useActiveSection } from "@/hooks/useActiveSection"
 import { useState } from "react"
 import { TextAnimate } from "@/components/ui/text-animate"
-import { PhotoMarquee } from "@/components/PhotoMarquee"
+import { PhotoCarousel } from "@/components/PhotoCarousel"
 import { PhotoCard } from "@/components/PhotoCard"
 import { PhotoModal } from "@/components/PhotoModal"
 import { renderWithMarks, type TextMark } from "@/lib/render-with-marks"
 import { PolaroidCard } from "@/components/PolaroidCard"
 import { NextWorkplaceReveal } from "@/components/NextWorkplaceReveal"
 import { ThankYouFireworks } from "@/components/ThankYouFireworks"
+import DomeGallery, { type DomeGalleryImage } from "@/components/ui/DomeGallery"
 
 type HeroPolaroid = {
   src: string
@@ -40,15 +41,39 @@ export default function Page() {
   const profile = story.profile as StoryProfile
   const sections = story.sections as StorySection[]
   const closing = (story as typeof story & { closing: StoryClosing }).closing
-  const sectionIds = useMemo(() => ["hero", ...sections.map((s) => s.id), "closing"], [sections])
+  const sectionIds = useMemo(
+    () => ["hero", ...sections.map((s) => s.id), "closing", "gallery"],
+    [sections]
+  )
   const activeId = useActiveSection(sectionIds)
   const [activePhoto, setActivePhoto] = useState<StorySection["photos"][number] | null>(null)
+  const [activePhotoSet, setActivePhotoSet] = useState<StorySection["photos"] | null>(null)
+  const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null)
 
-  const idToIndex = useMemo(() => {
-    const m = new Map<string, number>()
-    sectionIds.forEach((id, i) => m.set(id, i))
-    return m
-  }, [sectionIds])
+  const galleryImages = useMemo(() => {
+    const out: { src: string; alt?: string }[] = []
+    const seen = new Set<string>()
+
+    const push = (src?: string, alt?: string) => {
+      if (!src) return
+      if (seen.has(src)) return
+      seen.add(src)
+      out.push({ src, alt })
+    }
+
+    profile.heroPolaroids?.forEach((p) => push(p.src, p.alt))
+    sections.forEach((s) => {
+      s.photos.forEach((p) => push(p.src, p.captionTitle || p.alt))
+    })
+
+    return out as DomeGalleryImage[]
+  }, [profile.heroPolaroids, sections])
+
+  const scrollToId = (id: string) => {
+    const el = document.getElementById(id)
+    if (!el) return
+    el.scrollIntoView({ behavior: "smooth", block: "start" })
+  }
 
   useEffect(() => {
     const isTypingTarget = (target: EventTarget | null) => {
@@ -61,19 +86,12 @@ export default function Page() {
       )
     }
 
-    const scrollToId = (id: string) => {
-      const el = document.getElementById(id)
-      if (!el) return
-      el.scrollIntoView({ behavior: "smooth", block: "start" })
-    }
-
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.defaultPrevented || e.repeat) return
       if (e.metaKey || e.ctrlKey || e.altKey) return
       if (isTypingTarget(e.target)) return
 
-      const currentIdx = idToIndex.get(activeId) ?? 0
-
+      const currentIdx = sectionIds.indexOf(activeId) >= 0 ? sectionIds.indexOf(activeId) : 0
       const nextKeys = ["ArrowDown", "PageDown", " "]
       const prevKeys = ["ArrowUp", "PageUp"]
 
@@ -90,7 +108,7 @@ export default function Page() {
 
     window.addEventListener("keydown", onKeyDown)
     return () => window.removeEventListener("keydown", onKeyDown)
-  }, [activeId, idToIndex, sectionIds])
+  }, [activeId, sectionIds])
 
   return (
     <main className="min-h-svh">
@@ -101,6 +119,7 @@ export default function Page() {
           { id: "hero", label: "intro" },
           ...sections.map((s) => ({ id: s.id, label: s.navLabel })),
           { id: "closing", label: "close" },
+          { id: "gallery", label: "gallery" },
         ]}
         activeId={activeId}
       />
@@ -165,7 +184,14 @@ export default function Page() {
                 ) : null}
               </div>
             ) : section.photos.length > 0 ? (
-              <PhotoMarquee photos={section.photos} />
+              <PhotoCarousel
+                photos={section.photos}
+                onOpen={(p, i, photos) => {
+                  setActivePhoto(p)
+                  setActivePhotoSet(photos)
+                  setActivePhotoIndex(i)
+                }}
+              />
             ) : null}
           </Section>
         ))}
@@ -205,9 +231,54 @@ export default function Page() {
             <ThankYouFireworks />
           </div>
         </section>
+
+        <section id="gallery" className="min-h-svh pt-16 pb-14 flex items-start overflow-hidden">
+          <div className="max-w-5xl w-full">
+            <div className="os-mono text-[11px] tracking-[0.26em] uppercase text-muted-foreground">
+              gallery
+            </div>
+            <h2 className="mt-5 text-[44px] leading-[0.9] font-heading text-foreground">
+              Photo gallery
+            </h2>
+            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+              Click a tile to enlarge. Press Escape to close.
+            </p>
+
+            <div className="mt-10 h-[78svh] w-full overflow-hidden">
+              <DomeGallery images={galleryImages} mode="grid" grayscale={false} />
+            </div>
+          </div>
+        </section>
       </div>
 
-      <PhotoModal photo={activePhoto} onClose={() => setActivePhoto(null)} />
+      <PhotoModal
+        photo={activePhoto}
+        onClose={() => {
+          setActivePhoto(null)
+          setActivePhotoSet(null)
+          setActivePhotoIndex(null)
+        }}
+        onPrev={
+          activePhotoSet && activePhotoIndex != null && activePhotoSet.length > 1
+            ? () => {
+                const nextIndex =
+                  (activePhotoIndex - 1 + activePhotoSet.length) % activePhotoSet.length
+                setActivePhotoIndex(nextIndex)
+                setActivePhoto(activePhotoSet[nextIndex] ?? null)
+              }
+            : undefined
+        }
+        onNext={
+          activePhotoSet && activePhotoIndex != null && activePhotoSet.length > 1
+            ? () => {
+                const nextIndex = (activePhotoIndex + 1) % activePhotoSet.length
+                setActivePhotoIndex(nextIndex)
+                setActivePhoto(activePhotoSet[nextIndex] ?? null)
+              }
+            : undefined
+        }
+      />
     </main>
   )
 }
+

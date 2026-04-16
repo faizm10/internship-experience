@@ -1,7 +1,7 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
+import ShapeGrid from "@/components/ui/ShapeGrid"
 
 function GhostPolaroid({
   className,
@@ -26,32 +26,34 @@ function GhostPolaroid({
   )
 }
 
-export function BackgroundLayer() {
+export function BackgroundLayer({ className }: { className?: string }) {
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div className={cn("fixed inset-0 -z-10 overflow-hidden", className)}>
       <div className="absolute inset-0 bg-background" />
 
-      <div className="absolute inset-0 bg-gridline opacity-[0.55]" />
+      {/* React Bits ShapeGrid background (interactive hover, but does not block clicks) */}
+      <div className="pointer-events-none absolute inset-0 opacity-[0.55]">
+        <ShapeGrid
+          speed={0.55}
+          squareSize={42}
+          direction="diagonal"
+          borderColor="rgba(0,0,0,0.10)"
+          hoverFillColor="rgba(34,197,94,0.22)"
+          shape="square"
+          hoverTrailAmount={6}
+        />
+      </div>
 
-      <div className="absolute inset-0 bg-[radial-gradient(1200px_800px_at_20%_10%,rgba(20,184,166,0.16)_0%,rgba(20,184,166,0.00)_62%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(1200px_800px_at_80%_70%,rgba(34,197,94,0.14)_0%,rgba(34,197,94,0.00)_65%)]" />
+      {/* Optional polish: keep your subtle polaroid ghosts */}
+      <div className="pointer-events-none absolute inset-0">
+        <GhostPolaroid className="left-[8%] top-[18%] h-[220px] w-[190px] opacity-[0.10]" rotate={-8} />
+        <GhostPolaroid className="right-[10%] top-[12%] h-[260px] w-[220px] opacity-[0.08]" rotate={10} />
+        <GhostPolaroid className="left-[14%] bottom-[10%] h-[240px] w-[210px] opacity-[0.06]" rotate={6} />
+        <GhostPolaroid className="right-[16%] bottom-[14%] h-[210px] w-[180px] opacity-[0.07]" rotate={-12} />
+      </div>
 
-      {/* Polaroid ghosts */}
-      <GhostPolaroid className="left-[8%] top-[18%] h-[220px] w-[190px] opacity-[0.12]" rotate={-8} />
-      <GhostPolaroid className="right-[10%] top-[12%] h-[260px] w-[220px] opacity-[0.10]" rotate={10} />
-      <GhostPolaroid className="left-[14%] bottom-[10%] h-[240px] w-[210px] opacity-[0.08]" rotate={6} />
-      <GhostPolaroid className="right-[16%] bottom-[14%] h-[210px] w-[180px] opacity-[0.09]" rotate={-12} />
-
-      {/* Noise layer */}
-      <motion.div
-        className="absolute inset-0 bg-noise grain-drift opacity-[0.18] mix-blend-multiply"
-        initial={false}
-        animate={{ opacity: [0.14, 0.20, 0.14] }}
-        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_20%,rgba(255,255,255,0.00)_0%,rgba(255,255,255,0.00)_58%,rgba(0,0,0,0.12)_100%)]" />
+      {/* Soft vignette to keep foreground readable */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_20%,rgba(255,255,255,0.00)_0%,rgba(255,255,255,0.00)_58%,rgba(0,0,0,0.10)_100%)]" />
     </div>
   )
 }

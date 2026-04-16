@@ -8,18 +8,24 @@ import type { SectionPhoto } from "@/components/Section"
 export function PhotoModal({
   photo,
   onClose,
+  onPrev,
+  onNext,
 }: {
   photo: SectionPhoto | null
   onClose: () => void
+  onPrev?: () => void
+  onNext?: () => void
 }) {
   useEffect(() => {
     if (!photo) return
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose()
+      if (e.key === "ArrowLeft") onPrev?.()
+      if (e.key === "ArrowRight") onNext?.()
     }
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
-  }, [photo, onClose])
+  }, [photo, onClose, onPrev, onNext])
 
   return (
     <AnimatePresence>
@@ -42,9 +48,41 @@ export function PhotoModal({
             aria-modal="true"
           >
             <div
-              className="w-full max-w-3xl overflow-hidden rounded-3xl border border-border bg-background/85 backdrop-blur-2xl shadow-[0_40px_120px_rgba(0,0,0,0.18)]"
+              className="relative w-full max-w-3xl overflow-hidden rounded-3xl border border-border bg-background/85 backdrop-blur-2xl shadow-[0_40px_120px_rgba(0,0,0,0.18)]"
               onClick={(e) => e.stopPropagation()}
             >
+              <button
+                type="button"
+                onClick={onClose}
+                className="absolute right-7 top-7 z-10 inline-flex size-10 items-center justify-center rounded-full border border-border bg-background/80 text-foreground shadow-sm backdrop-blur-xl transition hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                aria-label="Close"
+              >
+                <span aria-hidden className="text-[18px] leading-none">
+                  ×
+                </span>
+              </button>
+
+              {onPrev ? (
+                <button
+                  type="button"
+                  onClick={onPrev}
+                  className="absolute left-7 top-7 z-10 inline-flex h-10 items-center justify-center rounded-full border border-border bg-background/80 px-3 text-[13px] text-foreground shadow-sm backdrop-blur-xl transition hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                  aria-label="Previous photo"
+                >
+                  Prev
+                </button>
+              ) : null}
+
+              {onNext ? (
+                <button
+                  type="button"
+                  onClick={onNext}
+                  className="absolute right-[4.25rem] top-7 z-10 inline-flex h-10 items-center justify-center rounded-full border border-border bg-background/80 px-3 text-[13px] text-foreground shadow-sm backdrop-blur-xl transition hover:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                  aria-label="Next photo"
+                >
+                  Next
+                </button>
+              ) : null}
               <div className="relative aspect-16/10 bg-muted/30">
                 <Image
                   src={photo.src}

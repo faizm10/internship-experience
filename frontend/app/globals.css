@@ -41,6 +41,11 @@
     --gridline-bold: color-mix(in oklch, var(--primary) 34%, transparent);
 }
 
+/* DomeGallery: prevent background scroll while an image is enlarged */
+.dg-scroll-lock {
+  overflow: hidden;
+}
+
 @theme inline {
     --font-sans: var(--font-sans);
     --font-heading: var(--font-heading);
