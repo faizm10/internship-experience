@@ -15,7 +15,6 @@ import { renderWithMarks, type TextMark } from "@/lib/render-with-marks"
 import { PolaroidCard } from "@/components/PolaroidCard"
 import { NextWorkplaceReveal } from "@/components/NextWorkplaceReveal"
 import { ThankYouFireworks } from "@/components/ThankYouFireworks"
-import DomeGallery, { type DomeGalleryImage } from "@/components/ui/DomeGallery"
 import { QrCode } from "@/components/QrCode"
 import Image from "next/image"
 
@@ -46,32 +45,13 @@ export default function Page() {
   const sections = story.sections as StorySection[]
   const closing = (story as typeof story & { closing: StoryClosing }).closing
   const sectionIds = useMemo(
-    () => ["hero", ...sections.map((s) => s.id), "closing", "gallery"],
+    () => ["hero", ...sections.map((s) => s.id), "closing"],
     [sections]
   )
   const activeId = useActiveSection(sectionIds)
   const [activePhoto, setActivePhoto] = useState<StorySection["photos"][number] | null>(null)
   const [activePhotoSet, setActivePhotoSet] = useState<StorySection["photos"] | null>(null)
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null)
-
-  const galleryImages = useMemo(() => {
-    const out: { src: string; alt?: string }[] = []
-    const seen = new Set<string>()
-
-    const push = (src?: string, alt?: string) => {
-      if (!src) return
-      if (seen.has(src)) return
-      seen.add(src)
-      out.push({ src, alt })
-    }
-
-    profile.heroPolaroids?.forEach((p) => push(p.src, p.alt))
-    sections.forEach((s) => {
-      s.photos.forEach((p) => push(p.src, p.captionTitle || p.alt))
-    })
-
-    return out as DomeGalleryImage[]
-  }, [profile.heroPolaroids, sections])
 
   const scrollToId = (id: string) => {
     const el = document.getElementById(id)
@@ -123,7 +103,6 @@ export default function Page() {
           { id: "hero", label: "intro" },
           ...sections.map((s) => ({ id: s.id, label: s.navLabel })),
           { id: "closing", label: "close" },
-          { id: "gallery", label: "gallery" },
         ]}
         activeId={activeId}
       />
@@ -142,10 +121,7 @@ export default function Page() {
               </div>
 
               <div className="shrink-0 sm:pb-[6px]">
-                <div className="os-mono text-[11px] tracking-[0.26em] uppercase text-muted-foreground sm:text-right">
-                  scan · photos
-                </div>
-                <div className="mt-2 sm:flex sm:justify-end">
+                <div className="sm:flex sm:justify-end">
                   <QrCode value={PHOTOS_PAGE_URL} size={132} />
                 </div>
               </div>
@@ -222,7 +198,7 @@ export default function Page() {
                       how code moved to production
                     </div>
                     <div className="text-[11px] text-muted-foreground/80">
-                      from "push to main" to risk gates
+                      from &quot;push to main&quot; to risk gates
                     </div>
                   </div>
 
@@ -337,24 +313,6 @@ export default function Page() {
             </div>
           </div>
         </section>
-
-        <section id="gallery" className="min-h-svh pt-16 pb-14 flex items-start overflow-hidden">
-          <div className="max-w-5xl w-full">
-            <div className="os-mono text-[11px] tracking-[0.26em] uppercase text-muted-foreground">
-              gallery
-            </div>
-            <h2 className="mt-5 text-[44px] leading-[0.9] font-heading text-foreground">
-              Photo gallery
-            </h2>
-            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-              Click a tile to enlarge. Press Escape to close.
-            </p>
-
-            <div className="mt-10 h-[78svh] w-full overflow-hidden">
-              <DomeGallery images={galleryImages} mode="grid" grayscale={false} />
-            </div>
-          </div>
-        </section>
       </div>
 
       <PhotoModal
@@ -387,4 +345,3 @@ export default function Page() {
     </main>
   )
 }
-

@@ -45,18 +45,18 @@
       ],
       "photos": [
         {
-          "src": "/google-developer.jpeg",
-          "alt": "Before section photo",
-          "captionTitle": "Event that changed me",
-          "captionBody": "one of the most impactful events of my life as I learned that even without a co-op, you can still land a job at a big company.",
-          "tags": ["impactful", "event"]
-        },
-        {
           "src": "/poker-night.jpeg",
           "alt": "Before section photo",
           "captionTitle": "unserious studying session",
           "captionBody": "I was just studying for the sake of studying, not for the sake of learning.",
           "tags": ["unserious", "studying"]
+        },
+        {
+          "src": "/google-developer.jpeg",
+          "alt": "Before section photo",
+          "captionTitle": "Event that changed me",
+          "captionBody": "one of the most impactful events of my life as I learned that even without a co-op, you can still land a job at a big company.",
+          "tags": ["impactful", "event"]
         },
         {
           "src": "/first-website-look.jpeg",
@@ -174,7 +174,7 @@
       "bullets": [
         "Honestly, I'm still carrying what I showed up with: I want work I can own.",
         "One thing I want to improve is asking why on the business side too not only why something is built a certain way in the code.",
-        "I also want to be more descriptive in PRs so reviewers get context without having to read my mind."
+        "I want my PR changes to be more descriptive and communicate through the code, so reviewers can understand the context from the diff instead of guessing."
       ],
       "bulletMarks": [
         [
@@ -188,7 +188,8 @@
         ],
         [
           { "phrase": "more descriptive", "action": "underline", "color": "#3d8b5c" },
-          { "phrase": "PRs", "action": "highlight", "color": "#5eb88a" }
+          { "phrase": "communicate through the code", "action": "highlight", "color": "#5eb88a" },
+          { "phrase": "from the diff", "action": "underline", "color": "#2f7a4a" }
         ]
       ],
       "photos": []
@@ -238,4 +239,3 @@
     ]
   }
 }
-
